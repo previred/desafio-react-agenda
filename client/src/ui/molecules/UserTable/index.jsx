@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Popconfirm, Row, Table, Typography } from "antd";
+import { Avatar, Popconfirm, Table, Typography } from "antd";
 import { UserOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const { Link, Text } = Typography;
