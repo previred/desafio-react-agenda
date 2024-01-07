@@ -1,26 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../context/UserContext";
+import React from "react";
 import Search from "../../atoms/Search";
 import UserTable from "../../molecules/UserTable";
 import { Divider } from "antd";
+import { useUserList } from "../../../hook/useUserList";
 
 const UserList = () => {
-  const { users, totalCount, loadUsers, handleDeleteUser } =
-    useContext(UserContext);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, _setPageSize] = useState(6);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const paginationConfig = {
-    current: currentPage,
-    pageSize: pageSize,
-    total: totalCount,
-    onChange: (page, _pageSize) => setCurrentPage(page),
-  };
-
-  useEffect(() => {
-    loadUsers(currentPage, pageSize, searchQuery);
-  }, [currentPage, searchQuery]);
+  const { users, handleDeleteUser, paginationConfig, setSearchQuery } =
+    useUserList();
 
   return (
     <React.Fragment>

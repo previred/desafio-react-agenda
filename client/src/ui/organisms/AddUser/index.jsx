@@ -1,46 +1,15 @@
-import React, { useContext, useRef, useState } from "react";
-import { UserContext } from "../../../context/UserContext";
+import React from "react";
 import { Drawer, Form, Button, message, Space } from "antd";
 import AddUserForm from "../../molecules/AddUserForm";
 import { PlusOutlined } from "@ant-design/icons";
+import { useAddUser } from "../../../hook/useAddUser";
 
 const AddUser = () => {
-  const { handleAddUser } = useContext(UserContext);
-  const formRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-
   const [form] = Form.useForm();
-
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
-  const onClose = () => {
-    setVisible(false);
-    form.resetFields();
-  };
-
-  const onFormSubmit = async (user) => {
-    try {
-      await handleAddUser(user);
-      onClose();
-      message.success("Usuario agregado con éxito");
-    } catch (error) {
-      message.error("Error al agregar el usuario");
-    }
-  };
-
-  const onSubmit = () => {
-    // Validando antes de enviar el formulario
-    formRef.current
-      .validateFields()
-      .then((values) => {
-        onFormSubmit(values);
-      })
-      .catch((info) => {
-        console.log("Validación fallida:", info);
-      });
-  };
+  const { formRef, visible, showDrawer, onClose, onSubmit } = useAddUser(
+    form,
+    message
+  );
 
   return (
     <React.Fragment>
@@ -61,12 +30,7 @@ const AddUser = () => {
           </Space>
         }
       >
-        <AddUserForm
-          ref={formRef}
-          form={form}
-          layout='vertical'
-          onFinish={onFormSubmit}
-        />
+        <AddUserForm ref={formRef} form={form} layout='vertical' />
       </Drawer>
     </React.Fragment>
   );
