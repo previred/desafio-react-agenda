@@ -5,7 +5,7 @@ import { Divider } from "antd";
 import { useUserList } from "../../../hook/useUserList";
 
 const UserList = () => {
-  const { users, handleDeleteUser, paginationConfig, setSearchQuery } =
+  const { users, handleDeleteUser, paginationConfig, onSearch } =
     useUserList();
 
   return (
@@ -13,7 +13,7 @@ const UserList = () => {
       <Search
         placeholder='Buscar contacto'
         allowClear
-        onSearch={(value, _e, _info) => setSearchQuery(value)}
+        onSearch={(value, _e, _info) => onSearch(value)}
         style={{
           width: "100%",
         }}

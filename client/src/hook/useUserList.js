@@ -8,6 +8,11 @@ export const useUserList = () => {
   const [pageSize, _setPageSize] = useState(6);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const onSearch = (value) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  };
+
   const paginationConfig = {
     current: currentPage,
     pageSize: pageSize,
@@ -23,6 +28,6 @@ export const useUserList = () => {
     users,
     handleDeleteUser,
     paginationConfig,
-    setSearchQuery,
+    onSearch,
   };
 };
