@@ -1,0 +1,13 @@
+{
+  "name": "previred-frontend-test",
+  "version": "1.0.0",
+  "description": "Agenda de contactos",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "node server.js"
+  },
+  "author": "dev@previred.com",
+  "devDependencies": {
+    "json-server": "^0.17.4"
+  }
+}
