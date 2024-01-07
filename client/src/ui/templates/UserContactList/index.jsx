@@ -18,8 +18,8 @@ function UserContactList() {
     >
       <Content
         style={{
-          padding: "60px 0",
-          maxWidth: "1400px",
+          padding: "80px 0",
+          maxWidth: "1200px",
           width: "100%",
         }}
       >
