@@ -2,11 +2,6 @@ import { DataType } from '@/models/contact'
 import { TableParams } from '@/models/table'
 import { useContactLoader } from './useContactLoader'
 import { useContactDelete } from './useContactDelete'
-// import { SearchContactsProps, useContactSearch } from './useContactSearch'
-
-interface ContactDataProps {
-  tableParams: TableParams
-}
 
 export interface ContactDataReturn {
   data: DataType[]
@@ -14,14 +9,9 @@ export interface ContactDataReturn {
   handleDelete: (id: number) => Promise<void>
   isLoading: boolean
   isLoadingDelete: boolean
-  // isLoadingSearch: boolean
   idToDelete: number | null
   openPopConfirmDelete: boolean
   paginationChange: (pagination: any, searchQuery: string) => Promise<void>
-  // searchContacts: ({
-  //   searchQuery,
-  //   tableParams
-  // }: SearchContactsProps) => Promise<void>
   tableParams: TableParams
   togglePopConfirmDelete: (id: number | null) => void
 }
@@ -48,23 +38,15 @@ const useContactData = (): ContactDataReturn => {
     togglePopConfirmDelete
   } = useContactDelete({ fetchData })
 
-  // Buscar contactos.
-  // const { isLoadingSearch, searchContacts } = useContactSearch({
-  //   setData,
-  //   setTableParams
-  // })
-
   return {
     data,
     fetchData,
     handleDelete,
     isLoading,
     isLoadingDelete,
-    // isLoadingSearch,
     idToDelete,
     openPopConfirmDelete,
     paginationChange,
-    // searchContacts,
     tableParams,
     togglePopConfirmDelete
   }
