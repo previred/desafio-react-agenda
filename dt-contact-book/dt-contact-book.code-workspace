@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"antd",
+			"Antd",
+			"asincrónica",
+			"manejador",
+			"Manejador",
+			"nextjs",
+			"paginación",
+			"Popconfirm",
+			"Previred",
+			"renderiza",
+			"renderizado",
+			"renderizador",
+			"Renderizador",
+			"renderizar"
+		]
+	}
+}
