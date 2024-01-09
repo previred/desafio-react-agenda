@@ -1,0 +1,50 @@
+:root {
+  font-size: 0.9rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  box-sizing: border-box;
+}
+p {
+  color: #23272f;
+}
+a {
+  text-decoration: none;
+}
+
+.App {
+  padding: 20px 40px;
+  @media (min-width: 576px) { 
+    padding: 40px 80px;
+  }
+}
+.iconButton {
+  cursor: pointer;
+}
+
+
+.TableP {
+  &__userInfo {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    i {
+      color: gray;
+      font-size: 30px;
+      display: inline-block;
+      margin-right: 10px;
+    }
+    img {
+      width: 30px;
+      height: 30px;
+      display: block;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  }
+  td {
+    color: #23272f;
+  }
+}
