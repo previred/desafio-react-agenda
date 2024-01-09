@@ -1,10 +1,10 @@
 'use client'
 
-import { Divider, Input, Table } from 'antd'
+import { Divider, Input, Table, TablePaginationConfig } from 'antd'
 import { SearchProps } from 'antd/es/input'
 import { columns } from './data'
 import { ContactDataContext } from '@/context/ContactDataContext'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 const { Search } = Input
 
@@ -14,6 +14,7 @@ const { Search } = Input
  * Este componente utiliza el hook useContactData para obtener y gestionar los datos de contacto.
  */
 const ContactList = () => {
+  const [searchValue, setSearchValue] = useState<string>('')
   const {
     data,
     handleDelete,
@@ -21,7 +22,7 @@ const ContactList = () => {
     isLoadingDelete,
     idToDelete,
     openPopConfirmDelete,
-    searchContacts,
+    paginationChange,
     tableParams,
     togglePopConfirmDelete
   } = useContext(ContactDataContext)
@@ -30,8 +31,20 @@ const ContactList = () => {
    * @description Función para realizar una búsqueda de contactos.
    * @param {string} value - Valor de búsqueda introducido por el usuario.
    */
-  const onSearch: SearchProps['onSearch'] = (value: string) =>
-    searchContacts({ searchQuery: value, tableParams })
+  const onSearch: SearchProps['onSearch'] = (value: string) => {
+    setSearchValue(value)
+    paginationChange(
+      {
+        ...tableParams.pagination,
+        current: 1
+      },
+      value
+    )
+  }
+
+  const handleTableChange = (pagination: TablePaginationConfig) => {
+    paginationChange(pagination, searchValue)
+  }
 
   return (
     <section className='mt-6'>
@@ -55,6 +68,7 @@ const ContactList = () => {
         pagination={tableParams.pagination}
         loading={isLoading}
         size='small'
+        onChange={handleTableChange}
       />
     </section>
   )

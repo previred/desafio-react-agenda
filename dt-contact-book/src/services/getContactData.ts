@@ -1,6 +1,11 @@
 import { DataType } from '@/models/contact'
 import { TableParams } from '@/models/table'
 
+interface getContactDataReturn {
+  dataResult: DataType[]
+  totalCount: number
+}
+
 /**
  * @description Obtiene los datos de contacto de la API según los parámetros y la consulta de búsqueda proporcionados.
  *
@@ -14,7 +19,7 @@ import { TableParams } from '@/models/table'
 export const getContactData = async (
   params: TableParams,
   searchQuery?: string
-): Promise<DataType[]> => {
+): Promise<getContactDataReturn> => {
   const contactApiUrl = new URL(`${process.env.NEXT_PUBLIC_API_URL}/users`)
 
   contactApiUrl.searchParams.append('_page', String(params.pagination?.current))
@@ -27,15 +32,17 @@ export const getContactData = async (
   }
 
   let dataResult: DataType[] = []
+  let totalCount = 0
 
   try {
     const response = await fetch(contactApiUrl)
+    totalCount = parseInt(response.headers.get('X-Total-Count') || '0', 10)
     const data = await response.json()
     dataResult = data as DataType[]
   } catch (error) {
     console.error('Error fetching user data:', error)
     throw error
   } finally {
-    return dataResult
+    return { dataResult, totalCount }
   }
 }

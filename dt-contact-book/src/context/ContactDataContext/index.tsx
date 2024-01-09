@@ -18,15 +18,7 @@ export const ContactDataContext = createContext<ContactDataReturn>(
  * @returns {JSX.Element} - Elemento JSX que representa el proveedor de contexto para ContactDataContext.
  */
 const ContactDataProvider = ({ children }: ProviderProps): JSX.Element => {
-  const tableParams = {
-    pagination: {
-      current: 1,
-      defaultPageSize: 6,
-      pageSize: 6,
-      showSizeChanger: false
-    }
-  }
-  const contactData = useContactData({ tableParams })
+  const contactData = useContactData()
 
   return (
     <ContactDataContext.Provider value={contactData}>

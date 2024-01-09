@@ -47,7 +47,7 @@ export const useContactSearch = ({
     setIsLoadingSearch(true)
     try {
       const fetchedData = await getContactData(tableParams, searchQuery)
-      setData(fetchedData)
+      setData(fetchedData.dataResult)
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {

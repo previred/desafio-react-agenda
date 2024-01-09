@@ -2,7 +2,7 @@ import { DataType } from '@/models/contact'
 import { TableParams } from '@/models/table'
 import { useContactLoader } from './useContactLoader'
 import { useContactDelete } from './useContactDelete'
-import { SearchContactsProps, useContactSearch } from './useContactSearch'
+// import { SearchContactsProps, useContactSearch } from './useContactSearch'
 
 interface ContactDataProps {
   tableParams: TableParams
@@ -14,13 +14,14 @@ export interface ContactDataReturn {
   handleDelete: (id: number) => Promise<void>
   isLoading: boolean
   isLoadingDelete: boolean
-  isLoadingSearch: boolean
+  // isLoadingSearch: boolean
   idToDelete: number | null
   openPopConfirmDelete: boolean
-  searchContacts: ({
-    searchQuery,
-    tableParams
-  }: SearchContactsProps) => Promise<void>
+  paginationChange: (pagination: any, searchQuery: string) => Promise<void>
+  // searchContacts: ({
+  //   searchQuery,
+  //   tableParams
+  // }: SearchContactsProps) => Promise<void>
   tableParams: TableParams
   togglePopConfirmDelete: (id: number | null) => void
 }
@@ -33,11 +34,10 @@ export interface ContactDataReturn {
  * @param {ContactDataProps} props - Propiedades para el hook useContactData.
  * @returns {ContactDataReturn} - Un objeto que contiene funciones y estados para gestionar los contactos.
  */
-const useContactData = ({
-  tableParams
-}: ContactDataProps): ContactDataReturn => {
+const useContactData = (): ContactDataReturn => {
   // Cargar lista de contactos.
-  const { data, fetchData, isLoading, setData } = useContactLoader(tableParams)
+  const { data, fetchData, isLoading, setData, tableParams, paginationChange } =
+    useContactLoader()
 
   // Eliminar contacto.
   const {
@@ -49,9 +49,10 @@ const useContactData = ({
   } = useContactDelete({ fetchData })
 
   // Buscar contactos.
-  const { isLoadingSearch, searchContacts } = useContactSearch({
-    setData
-  })
+  // const { isLoadingSearch, searchContacts } = useContactSearch({
+  //   setData,
+  //   setTableParams
+  // })
 
   return {
     data,
@@ -59,10 +60,11 @@ const useContactData = ({
     handleDelete,
     isLoading,
     isLoadingDelete,
-    isLoadingSearch,
+    // isLoadingSearch,
     idToDelete,
     openPopConfirmDelete,
-    searchContacts,
+    paginationChange,
+    // searchContacts,
     tableParams,
     togglePopConfirmDelete
   }
