@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Input, Divider, Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import TableComponent from "./components/Table/TableComponent";
+const { Search } = Input;
+import "./App.css";
+import { useSidebar } from "./hooks/useSidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const { showSidebar } = useSidebar();
+  const onSearch = (value, _e, info) => console.log(info?.source, value);
   return (
-    <>
+    <div className="container">
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <h1>Agenda Previred - Mi agenda de contactos laboral</h1>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Aquí podrás encontrar o buscar todos tus contactos agragdos, agregar
+          nuevos contactos y eliminar contactos no deseados
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <div>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={() => showSidebar()}
+        >
+          Agregar contacto
+        </Button>
+      </div>
+      <div className="inputSearch">
+        <Search placeholder="input search text" onSearch={onSearch} />
+        <Divider className="divider" />
+      </div>
+
+      <div className="table">
+        <TableComponent />
+      </div>
+      <Sidebar />
+    </div>
+  );
 }
 
-export default App
+export default App;
