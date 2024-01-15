@@ -41,7 +41,6 @@ const TableComponent = ({
       title: "Action",
       key: "key",
       render: (_, record) => {
-        // console.log({ _, record });
         return (
           <Button
             shape="circle"

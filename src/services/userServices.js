@@ -30,7 +30,6 @@ export const getUsers = async ({ page, limit, query }) => {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
   const users = await response.json();
-  console.log({ users, total });
   return {
     data: users,
     total, // Agregar el total al objeto de retorno
