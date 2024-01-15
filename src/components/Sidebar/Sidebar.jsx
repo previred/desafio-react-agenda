@@ -1,12 +1,19 @@
-import { Drawer, Button } from "antd";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { Drawer, Button, Form, Input, Space } from "antd";
 import { useSidebar } from "../../hooks/useSidebar";
-import { Space } from "antd";
-import { Flex } from "antd";
-import { Input } from "antd";
-import { Typography } from "antd";
 
-const Sidebar = () => {
+const Sidebar = ({ onFinish }) => {
   const { visible, hideSidebar } = useSidebar();
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.resetFields(); // Esto limpiará el formulario después del envío
+  }, [form, visible]);
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
 
   return (
     <>
@@ -15,28 +22,86 @@ const Sidebar = () => {
         placement="right"
         closable={true}
         onClose={hideSidebar}
-        visible={visible}
+        open={visible}
         width={500}
         extra={
           <Space>
-            <Button onClick={hideSidebar}>Cancel</Button>
-            <Button type="primary">Guardar</Button>
+            <Button onClick={hideSidebar}>Cancelar</Button>
+            <Button type="primary" onClick={() => form.submit()}>
+              Guardar
+            </Button>
           </Space>
         }
       >
-        <Flex vertical={"vertical"}>
-          <Typography.Title level={5}>URL imagen de perfil</Typography.Title>
-          <Input placeholder="Inserte la URL de la imagen de perfil" />
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            name="photo"
+            label="URL imagen de perfil"
+            rules={[
+              {
+                required: true,
+                message: "Por favor ingrese la URL de la imagen de perfil",
+              },
+            ]}
+          >
+            <Input placeholder="Inserte la URL de la imagen de perfil" />
+          </Form.Item>
 
-          <Typography.Title level={5}>Nombre</Typography.Title>
-          <Input placeholder="Escriba el nombre del contacto" />
+          <Form.Item
+            name="name"
+            label="Nombre"
+            rules={[
+              {
+                required: true,
+                message: "Por favor ingrese el nombre del contacto",
+              },
+            ]}
+          >
+            <Input placeholder="Escriba el nombre del contacto" />
+          </Form.Item>
 
-          <Typography.Title level={5}>descripción</Typography.Title>
-          <Input placeholder="Agregue la descripción del contacto" />
-        </Flex>
+          <Form.Item
+            name="description"
+            label="Descripción"
+            rules={[
+              {
+                required: true,
+                message: "Por favor agregue la descripción del contacto",
+              },
+            ]}
+          >
+            <Input placeholder="Agregue la descripción del contacto" />
+          </Form.Item>
+
+          <Form.Item shouldUpdate>
+            {() => (
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={
+                  // Aquí deshabilitamos el botón si el formulario no es válido
+                  !form.isFieldsTouched(true) ||
+                  !!form.getFieldsError().filter(({ errors }) => errors.length)
+                    .length
+                }
+              >
+                Guardar
+              </Button>
+            )}
+          </Form.Item>
+        </Form>
       </Drawer>
     </>
   );
+};
+
+Sidebar.propTypes = {
+  onFinish: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
