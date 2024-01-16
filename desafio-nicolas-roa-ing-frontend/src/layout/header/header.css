@@ -1,0 +1,19 @@
+.title{
+    color: #525252;
+    font-weight: 600;
+    font-size: 27.7px;
+}
+
+.subTitle{
+    color: #adadad;
+}
+
+.btnAddContact{
+    margin: 2% 0% 2% 0%;
+}
+
+.divition{
+    background-color: #f8f8f8;
+    height: 2px;
+    margin: 2% 0% 2% 0%;
+}

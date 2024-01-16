@@ -1,0 +1,14 @@
+.profileUser{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%
+}
+
+.contentIconDelete {
+    text-align: center;
+}
+
+.contentIconDelete > .iconDelete{
+    vertical-align: middle;
+    font-size: 25px;
+}

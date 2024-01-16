@@ -1,0 +1,7 @@
+.main{
+    background-color: #FFFFFF;
+}
+
+.main > .content {
+    padding: 5% 10%;
+}
