@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
+import { UserFormData } from "../users/domain";
 import { Form, Input } from "antd";
-import { UserFormData } from "../users/domain/User";
 
 interface UserFormProps {
   onFormChange: (formValues: UserFormData) => void;  
@@ -41,8 +41,8 @@ const UserForm: React.FC<UserFormProps> = ({ onFormChange }) => {
         name='name'
         rules={[
           {
-            message: "Por favor, ingrese un nombre de contacto válido.",
-            pattern: new RegExp(/^[a-zA-Z ]+$/),
+            message: "El nombre debe tener 4 caracteres como mínimo.",
+            pattern: new RegExp(/^.{4,}$/),
           },
         ]}
       >
@@ -53,8 +53,8 @@ const UserForm: React.FC<UserFormProps> = ({ onFormChange }) => {
         name='description'
         rules={[
           {
-            message: "Por favor, ingrese una descripción válida.",
-            pattern: new RegExp(/^[a-zA-Z ]+$/),
+            message: "El nombre debe tener 10 caracteres como mínimo.",
+            pattern: new RegExp(/^.{10,}$/),
           },
         ]}
       >

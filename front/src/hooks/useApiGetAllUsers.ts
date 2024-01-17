@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createApiUserRepository } from '../users/infrastructure/ApiUserRepository';
-import { User } from '../users/domain/User';
+import { User } from '../users/domain';
 
 const useApiGetAllUsers = () => {
   const [error, setError] = useState<Error | null>(null);

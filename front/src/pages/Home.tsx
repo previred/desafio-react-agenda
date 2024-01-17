@@ -1,11 +1,8 @@
-import { Layout, Typography, Divider } from 'antd';
-import { useEffect, useState } from 'react';
-import UserList from '../components/UserList';
-import UserAdd from '../components/UserAdd';
-import UserSearch from '../components/UserSearch';
-import useApiGetAllUsers from '../hooks/useApiGetAllUsers';
+import { useContext, useEffect, useState } from 'react';
 import { UpdateUserList } from '../context/UpdateUserListContext';
-import { useContext } from 'react';
+import { UserList, UserAdd, UserSearch } from '../components';
+import useApiGetAllUsers from '../hooks/useApiGetAllUsers';
+import { Layout, Typography, Divider } from 'antd';
 
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
@@ -40,10 +37,6 @@ const Home = () => {
           <Divider style={{ margin: "24px 0" }} />
           {loading && <div>Cargando...</div>}
           <UserList users={data} />
-            {/* Agregar contacto */}
-            {/* Busqueda */}
-            {/* Tabla */}
-            {/* drawer */}
         </Content>
       </Layout>
     </>

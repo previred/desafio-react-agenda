@@ -1,5 +1,4 @@
-import { UserFormData, User } from '../domain/User';
-import { UserRepository } from '../domain/UserRepository';
+import { UserFormData, User, UserRepository } from '../domain';
 
 export function createApiUserRepository(): UserRepository {
     return {

@@ -1,10 +1,10 @@
+import { useContext } from 'react';
+import { UpdateUserList } from '../context/UpdateUserListContext';
 import { Avatar, Table, Typography, Modal, notification } from 'antd';
 import type { TableProps } from 'antd';
 import { UserOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { User } from '../users/domain/User';
 import { createApiUserRepository } from '../users/infrastructure/ApiUserRepository';
-import { UpdateUserList } from '../context/UpdateUserListContext';
-import { useContext } from 'react';
 
 const { Link, Text } = Typography;
 
@@ -66,15 +66,17 @@ const UserList : React.FC<UserListProps> = ({ users }) => {
       title: 'Acciones',
       key: 'action',
       render: (text) => (
-        <DeleteOutlined
-          onClick={() => confirm(text.id, text.name)}
-          style={{
-            color: "#3d3d3d",
-            fontSize: 20,
-            margin: "auto",
-            cursor: "pointer",
-          }}
-        />
+        <div style={{ display: 'flex', width: '100%' }}>
+          <DeleteOutlined
+            onClick={() => confirm(text.id, text.name)}
+            style={{
+              color: "#3d3d3d",
+              fontSize: 20,
+              margin: "auto",
+              cursor: "pointer",
+            }}
+          />
+        </div>
       ),
     },
   ];

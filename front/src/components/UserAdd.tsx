@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
+import UserForm from "./UserForm";
+import { UserFormData } from "../users/domain";
+import { UpdateUserList } from '../context/UpdateUserListContext';
+import { createApiUserRepository } from "../users/infrastructure/ApiUserRepository";
 import { Drawer, Button, Space, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import UserForm from "./UserForm";
-import { UserFormData } from "../users/domain/User";
-import { createApiUserRepository } from "../users/infrastructure/ApiUserRepository";
-import { UpdateUserList } from '../context/UpdateUserListContext';
 
 const UserAdd : React.FC = () => {
   const { updateEstado } = useContext(UpdateUserList)!;
