@@ -101,12 +101,6 @@
       "name": "Felipe",
       "description": "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
       "photo": "https://images.pexels.com/photos/325682/pexels-photo-325682.jpeg?h=350&auto=compress&cs=tinysrgb"
-    },
-    {
-      "name": "jose",
-      "description": "lorem ipsum",
-      "photo": "https://media.licdn.com/dms/image/D4E03AQGH0esVK4JHCA/profile-displayphoto-shrink_800_800/0/1677438064906?e=1710979200&v=beta&t=_4bSUbPCblCaz3ecOBDBH1Yb9kDKUWDSYnEs9vZ8ZO0",
-      "id": 19
     }
   ]
 }
