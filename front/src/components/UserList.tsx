@@ -3,6 +3,8 @@ import type { TableProps } from 'antd';
 import { UserOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { User } from '../users/domain/User';
 import { createApiUserRepository } from '../users/infrastructure/ApiUserRepository';
+import { UpdateUserList } from '../context/UpdateUserListContext';
+import { useContext } from 'react';
 
 const { Link, Text } = Typography;
 
@@ -12,7 +14,7 @@ interface UserListProps {
 
 const UserList : React.FC<UserListProps> = ({ users }) => {
   const [api, contextHolderNotification] = notification.useNotification();
-
+  const { updateEstado } = useContext(UpdateUserList)!;
   const openNotification = (description: string) => {
     api.open({
       message: 'Contacto eliminado',
@@ -36,9 +38,9 @@ const UserList : React.FC<UserListProps> = ({ users }) => {
   };
 
   const handleDeleteUser = async (id: number, name: string) => {
-    console.log(id);
     createApiUserRepository().delete(id);
     openNotification(`${name} se eliminó correctamente de tu agenda.`);   
+    updateEstado(true);
   };
 
   const columns: TableProps<User>['columns'] = [

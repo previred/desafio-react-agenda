@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Drawer, Button, Space, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import UserForm from "./UserForm";
 import { UserFormData } from "../users/domain/User";
 import { createApiUserRepository } from "../users/infrastructure/ApiUserRepository";
+import { UpdateUserList } from '../context/UpdateUserListContext';
 
 const UserAdd : React.FC = () => {
+  const { updateEstado } = useContext(UpdateUserList)!;
+
   const [open, setOpen] = useState(false);
   const [disabledButtonn, setDisabledButtonn] = useState(true);
   
@@ -47,7 +50,8 @@ const UserAdd : React.FC = () => {
     e.preventDefault();
     const response = await createApiUserRepository().save(formValues);
     openNotification(`${response.name} se agrego correctamente a tu agenda.`);
-    onClose(); 
+    onClose();
+    updateEstado(true); 
   };
   
   return (
