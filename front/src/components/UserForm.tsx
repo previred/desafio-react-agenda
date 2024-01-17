@@ -6,6 +6,15 @@ interface UserFormProps {
   onFormChange: (formValues: UserFormData) => void;  
 }
 
+/**
+ * Componente funcional de React para un formulario de usuario.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Function} props.onFormChange - Función que se ejecuta cuando cambian los datos del formulario.
+ * @returns {ReactElement} Componente de formulario de usuario.
+ */
+
 const UserForm: React.FC<UserFormProps> = ({ onFormChange }) => {
   const [formValues, setFormValues] = React.useState<UserFormData>({
     name: "",

@@ -7,7 +7,14 @@ import { Layout, Typography, Divider } from 'antd';
 const { Title, Paragraph } = Typography;
 const { Content } = Layout;
 
-const Home = () => {
+/**
+ * Componente funcional de React para la página principal (Home).
+ * 
+ * @component
+ * @returns {ReactElement} Componente para la página principal.
+ */
+
+const Home : React.FC = () => {
 
   const [loading, data, fetchData] = useApiGetAllUsers();
   const { estado, updateEstado } = useContext(UpdateUserList)!;

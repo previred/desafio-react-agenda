@@ -1,5 +1,10 @@
 import { UserFormData, User, UserRepository } from '../domain';
 
+/**
+ * Función que crea y devuelve una implementación de UserRepository basada en una API.
+ * 
+ * @returns {UserRepository} Implementación de UserRepository para la API.
+ */
 export function createApiUserRepository(): UserRepository {
     return {
         save: saveUser,
@@ -8,6 +13,12 @@ export function createApiUserRepository(): UserRepository {
     }
 }
 
+/**
+ * Función asincrónica para guardar un usuario en la API.
+ * 
+ * @param {UserFormData} user - Datos del usuario a guardar.
+ * @returns {Promise<User>} Promesa que se resuelve con el usuario guardado.
+ */
 async function saveUser(user: UserFormData){
     const response = await fetch('http://localhost:9000/api/users', {
         method: 'POST',
@@ -25,6 +36,12 @@ async function saveUser(user: UserFormData){
     return savedUser;
 }
 
+/**
+ * Función asincrónica para obtener todos los usuarios de la API, opcionalmente filtrados por una consulta.
+ * 
+ * @param {string} query - Consulta opcional para filtrar los usuarios.
+ * @returns {Promise<User[]>} Promesa que se resuelve con la lista de usuarios obtenida.
+ */
 async function getAllUsers(query?: string){
     let url = 'http://localhost:9000/api/users';
 
@@ -38,6 +55,12 @@ async function getAllUsers(query?: string){
     return users;
 }
 
+/**
+ * Función asincrónica para eliminar un usuario de la API por su ID.
+ * 
+ * @param {number} id - ID del usuario a eliminar.
+ * @returns {Promise<void>} Promesa que se resuelve una vez que se ha eliminado el usuario.
+ */
 async function deleteUser(id: number){
     await fetch('http://localhost:9000/api/users/'+id, {
         method: 'DELETE'

@@ -5,13 +5,25 @@ interface UpdateUserListProps {
   updateEstado: (nuevoEstado: boolean) => void;
 }
 
-// Crea el contexto
 export const UpdateUserList = createContext<UpdateUserListProps | undefined>(undefined);
 
-// Crea un proveedor para envolver los componentes que necesitan acceder al contexto
+/**
+ * Proveedor de contexto para la actualización de la lista de usuarios.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del proveedor de contexto.
+ * @param {ReactNode} props.children - Componentes secundarios que estarán envueltos por el proveedor.
+ * @returns {ReactElement} Proveedor de contexto para la actualización de la lista de usuarios.
+ */
 export const UpdateUserListProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [estado, setEstado] = useState<boolean>(false);
 
+  /**
+   * Función para actualizar el estado del contexto.
+   * 
+   * @param {boolean} nuevoEstado - Nuevo estado a establecer en el contexto.
+   * @returns {void}
+   */
   const updateEstado = (nuevoEstado: boolean) => {
     setEstado(nuevoEstado);
   };

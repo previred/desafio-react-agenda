@@ -12,6 +12,15 @@ interface UserListProps {
   users: User[];
 }
 
+/**
+ * Componente funcional de React para renderizar una lista de usuarios.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Array} props.users - Lista de usuarios que se renderizará.
+ * @returns {ReactElement} Componente de lista de usuarios.
+ */
+
 const UserList : React.FC<UserListProps> = ({ users }) => {
   const [api, contextHolderNotification] = notification.useNotification();
   const { updateEstado } = useContext(UpdateUserList)!;

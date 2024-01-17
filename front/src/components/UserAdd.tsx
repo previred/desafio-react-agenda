@@ -6,6 +6,13 @@ import { createApiUserRepository } from "../users/infrastructure/ApiUserReposito
 import { Drawer, Button, Space, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
+/**
+ * Componente funcional de React para agregar un nuevo usuario.
+ * 
+ * @component
+ * @returns {ReactElement} Componente para agregar usuarios.
+ */
+
 const UserAdd : React.FC = () => {
   const { updateEstado } = useContext(UpdateUserList)!;
 
