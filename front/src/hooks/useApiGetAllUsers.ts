@@ -7,10 +7,10 @@ const useApiGetAllUsers = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<User[]>([]);
 
-  const fetchData = async () => {
+  const fetchData = async (query?: string) => {
     setLoading(true);
     try {
-      const response = await createApiUserRepository().getAll();
+      const response = await createApiUserRepository().getAll(query);
       setData(response);
     } catch (error) {
       if (error instanceof Error) {

@@ -1,5 +1,5 @@
 import { Layout, Typography, Divider } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import UserList from '../components/UserList';
 import UserAdd from '../components/UserAdd';
 import UserSearch from '../components/UserSearch';
@@ -14,17 +14,20 @@ const Home = () => {
 
   const [loading, data, fetchData] = useApiGetAllUsers();
   const { estado, updateEstado } = useContext(UpdateUserList)!;
+  const [query, setQuery] = useState<string>("");
   
   useEffect(() => {
     if (estado) {
-      fetchData(); // Vuelve a ejecutar la carga cuando estado es true
+      fetchData(query); // Vuelve a ejecutar la carga cuando estado es true
       updateEstado(false);
     }
-  }, [estado, fetchData, updateEstado]);
+  }, [estado, fetchData, updateEstado, query]);
 
-  if(loading){
-    return <>Cargando</>
-  }
+  const handleSearch = (searchValue: string) => {
+    // Seteo para ejecutar la busqueda
+    setQuery(searchValue);
+    updateEstado(true);
+  };
 
   return (
     <>
@@ -33,8 +36,9 @@ const Home = () => {
           <Title>Agenda Previred - Mi agenda de contactos laboral</Title>
           <Paragraph>Aquí podrá encontrar o buscar a todos sus contactos agregados, agregar nuevos contactos y eliminar contactos no deseados.</Paragraph>
           <UserAdd />
-          <UserSearch />
+          <UserSearch onSearch={handleSearch} />
           <Divider style={{ margin: "24px 0" }} />
+          {loading && <div>Cargando...</div>}
           <UserList users={data} />
             {/* Agregar contacto */}
             {/* Busqueda */}

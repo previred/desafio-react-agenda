@@ -26,8 +26,14 @@ async function saveUser(user: UserFormData){
     return savedUser;
 }
 
-async function getAllUsers(){
-    const users = await fetch('http://localhost:9000/api/users').then(
+async function getAllUsers(query?: string){
+    let url = 'http://localhost:9000/api/users';
+
+    if (query) {
+        url += `?q=${encodeURIComponent(query)}`;
+    }
+    
+    const users = await fetch(url).then(
         (response) => response.json() as Promise<User[]>
     );
     return users;
