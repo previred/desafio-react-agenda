@@ -1,4 +1,4 @@
-import { Avatar, Button, Drawer, Form, Input, Space, Table } from "antd";
+import { Avatar, Button, Drawer, Form, Input, Modal, Space, Table } from "antd";
 import Paragraph from "antd/es/typography/Paragraph";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
@@ -18,8 +18,10 @@ interface UserType {
 const Home = () => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const [addForm] = Form.useForm();
+  const [deleteModal, contextHolder] = Modal.useModal();
 
-  const COLUMNS = [
+  // Table columns
+  const columns = [
     {
       title: "Nombre",
       dataIndex: "name",
@@ -40,16 +42,17 @@ const Home = () => {
       title: "Acciones",
       dataIndex: "actions",
       key: "actions",
-      render: (_: string, { id }: UserType) => (
+      render: (_: string, { id, name }: UserType) => (
         <Button
           type="text"
           icon={<DeleteOutlined />}
-          onClick={() => onDelete(id)}
+          onClick={() => onDelete(id, name)}
         />
       ),
     },
   ];
 
+  // API Calls
   const [{ data: usersData, loading, error }, refreshUsers] =
     useAxios<UserType[]>(API_URL);
 
@@ -61,12 +64,37 @@ const Home = () => {
     { manual: true }
   );
 
-  const onSearch = (search: string) => {
-    console.log(search);
+  const [, executeDelete] = useAxios(
+    {
+      baseURL: API_URL,
+      method: "DELETE",
+    },
+    { manual: true }
+  );
+
+  // Functions
+  const onSearch = async (search: string) => {
+    try {
+      await refreshUsers({ params: { q: search } });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const onDelete = async (id: number) => {
-    console.log(id);
+  const onDelete = async (id: number, name: string) => {
+    try {
+      const confirmModal = await deleteModal.confirm({
+        title: "¿Estás seguro de que quieres eliminar este contacto?",
+        content: name,
+      });
+
+      if (confirmModal) {
+        await executeDelete({ url: id.toString() });
+        await refreshUsers();
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onAddSummit = async () => {
@@ -123,7 +151,7 @@ const Home = () => {
 
       <Table
         dataSource={usersData}
-        columns={COLUMNS}
+        columns={columns}
         loading={loading}
         rowKey={(record) => record.id}
       />
@@ -170,6 +198,7 @@ const Home = () => {
           </Form.Item>
         </Form>
       </Drawer>
+      {contextHolder}
     </>
   );
 };
