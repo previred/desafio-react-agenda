@@ -1,11 +1,14 @@
 import "./App.css";
 import Home from "./pages/home";
+import { BaseContent, MainContainer } from "./shared/main-container";
 
 function App() {
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <MainContainer>
+      <BaseContent>
+        <Home />
+      </BaseContent>
+    </MainContainer>
   );
 }
 
