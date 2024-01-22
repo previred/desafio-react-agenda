@@ -159,13 +159,15 @@ const UserList: React.FC = () => {
         pagination={false}
       />
 
-      <Pagination
-        current={currentPage}
-        pageSize={pageSize}
-        total={totalUsers}
-        onChange={handlePageChange}
-        onShowSizeChange={handlePageChange}
-      />
+      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', paddingTop: '20px', paddingRight: '20px' }}>
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={totalUsers}
+          onChange={handlePageChange}
+          onShowSizeChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };
