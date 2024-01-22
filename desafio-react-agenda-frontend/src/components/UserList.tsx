@@ -35,11 +35,26 @@ const UserList: React.FC = () => {
       key: 'name',
       render: (_, record: IUser) => (
         <Space>
-          <img 
-            src={record.photo} 
-            alt={record.name} 
-            style={{ width: 30, height: 30, borderRadius: '50%' }} 
-          />
+          {(record.photo && record.photo.endsWith('404.png')) ? (
+            <UserOutlined style={{ fontSize: '30px' }} />
+          ) : (
+            <img
+              src={record.photo}
+              alt={record.name}
+              style={{ width: 30, height: 30, borderRadius: '50%' }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'; // Oculta la imagen en caso de error
+
+                // Verificar si el error es 404 (Not Found)
+                if (e.currentTarget.naturalWidth === 0) {
+                  // Mostrar el ícono UserOutlined como marcador de posición
+                  if (e.currentTarget.parentNode) {
+                    (e.currentTarget.parentNode as HTMLElement).insertAdjacentHTML('beforeend', '<span><UserOutlined style={{ fontSize: "30px" }} /></span>');
+                  }
+                }
+              }}
+            />
+          )}
           {record.name}
         </Space>
       ),
@@ -61,6 +76,7 @@ const UserList: React.FC = () => {
   // Funciones handleDelete y handleSearch
   const handleDelete = (userId: number) => {
     // Lógica para eliminar un usuario
+    
   };
 
   const handleSearch = (value: string) => {
