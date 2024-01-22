@@ -1,20 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Space, Pagination } from 'antd';
+import React, { useState, useEffect, useContext } from 'react';
+import { UsersContext } from '../contexts/UsersContext';
+import { Table, Input, Button, Space, Pagination, Spin, message } from 'antd';
 import { ColumnType } from 'antd/es/table';
 import { PlusOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons';
 import { IUser } from '../types/userTypes';
 import { getUsers, deleteUser } from '../services/apiService';
+import AddUserForm from './AddUserForm';
 
 const UserList: React.FC = () => {
-  const [users, setUsers] = useState<IUser[]>([]);
-  const [allUsers, setAllUsers] = useState<IUser[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
-  const [searchText, setSearchText] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(6);
-  const [totalUsers, setTotalUsers] = useState<number>(0);
+  // Acceder al contexto
+  const context = useContext(UsersContext);
+  if (!context) {
+    throw new Error('useUsers debe estar dentro del proveedor UsersProvider');
+  }
+  const {
+    users,
+    loading,
+    error,
+    totalUsers,
+    currentPage,
+    pageSize,
+    fetchUsers,
+    setCurrentPage,
+    setPageSize,
+    setSearchText,
+    setLoading,
+    setUsers,
+    setTotalUsers,
+    setAllUsers,
+    setError,
+  } = context;
 
+  // Estado para el Drawer
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+
+  // Funciones Drawer: showDrawer, closeDrawer, handleUserCreated y reloadUsers
+  const showDrawer = () => {
+    setIsDrawerVisible(true);
+  };
+
+  const closeDrawer = () => {
+    setIsDrawerVisible(false);
+  };
+
+  // Función para actualizar la lista de usuarios después de agregar uno nuevo
+  const handleUserCreated = () => {
+    closeDrawer();
+    reloadUsers();
+  };
+
+  // Función para recargar los usuarios (realtime)
+  const reloadUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await getUsers(currentPage, pageSize);
+      setUsers(response.data);
+      setTotalUsers(response.total);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Ocurrió un error al cargar los usuarios');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cargar los usuarios al montar el componente
   useEffect(() => {
     setLoading(true);
     getUsers(currentPage, pageSize)
@@ -31,6 +84,41 @@ const UserList: React.FC = () => {
       });
   }, [currentPage, pageSize]);
 
+  // Funciones handleDelete, handleSearch y handlePageChange
+  const handleDelete = async (userId: number) => {
+    try {
+      await deleteUser(userId);
+      message.success('Usuario eliminado exitosamente');
+      fetchUsers(); // Recarga la lista de usuarios
+    } catch (error) {
+      message.error('Hubo un error al eliminar el usuario');
+    }
+  };
+
+  // Función para buscar usuarios
+  const handleSearch = (value: string) => {
+    setSearchText(value.toLowerCase());
+    setLoading(true);
+    getUsers(1, pageSize, value) // Restablece a la primera página y pasa el término de búsqueda
+      .then((response) => {
+        setUsers(response.data); // Actualiza con los usuarios filtrados
+        setTotalUsers(response.total); // Actualiza el total de usuarios
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  // Función para cambiar de página
+  const handlePageChange = (page: number, pageSize: number) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
+
+  // Columnas de la tabla
   const columns: ColumnType<IUser>[] = [
     {
       title: 'Nombre',
@@ -80,94 +168,70 @@ const UserList: React.FC = () => {
     },
   ];
 
-  // Funciones handleDelete, handleSearch y handlePageChange
-  const handleDelete = async (userId: number) => {
-    try {
-      await deleteUser(userId);
-      // Actualiza la lista de usuarios después de eliminar (realtime)
-      const updatedUsers = users.filter((user) => user.id !== userId);
-      setUsers(updatedUsers);
-    } catch (error) {
-      // Maneja cualquier error que pueda ocurrir durante la eliminación
-      console.error('Error al eliminar el usuario:', error);
-    }
-  };
-
-  const handleSearch = (value: string) => {
-    setSearchText(value.toLowerCase());
-    setLoading(true);
-    getUsers(1, pageSize, value) // Restablece a la primera página y pasa el término de búsqueda
-      .then(response => {
-        setUsers(response.data); // Actualiza con los usuarios filtrados
-        setTotalUsers(response.total); // Actualiza el total de usuarios
-      })
-      .catch(error => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const handlePageChange = (page: number, pageSize: number) => {
-    setCurrentPage(page);
-    setPageSize(pageSize);
-  };
-
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
   return (
-    <div>
-      <h1>Agenda Previred - Mi agenda de contactos laboral</h1>
-      <p>
-        Aquí podrá encontrar o buscar a todos sus contactos agregados, agregar
-        nuevos contactos y eliminar contactos no deseados.
-      </p>
+    <div style={{ padding: 40 }}>
       <div
         style={{
-          marginBottom: 16,
           display: 'flex',
           flexDirection: 'column',
-          padding: '0 20px',
           alignItems: 'flex-start',
         }}
       >
-        <div style={{ width: '100%' }}>
-          <div style={{ marginBottom: 16, width: '20%' }}>
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              style={{ width: '100%' }}
-            >
-              Agregar Contacto
-            </Button>
-          </div>
-          <div style={{ width: '100%' }}>
-            <Input.Search
-              placeholder="Buscar contacto"
-              onSearch={handleSearch}
-              style={{ width: '100%' }}
-            />
-          </div>
+        <h1>Agenda Previred - Mi agenda de contactos laboral</h1>
+        <p>
+          Aquí podrá encontrar o buscar a todos sus contactos agregados, agregar
+          nuevos contactos y eliminar contactos no deseados.
+        </p>
+        <div style={{ marginBottom: 16 }}>
+          <Button type="primary" icon={<PlusOutlined />} onClick={showDrawer}>
+            Agregar Contacto
+          </Button>
         </div>
-      </div>
-      <Table
-        columns={columns}
-        dataSource={users}
-        rowKey="id"
-        pagination={false}
-      />
-
-      <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', paddingTop: '20px', paddingRight: '20px' }}>
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={totalUsers}
-          onChange={handlePageChange}
-          onShowSizeChange={handlePageChange}
+        <Input.Search
+          placeholder="Buscar contacto"
+          onSearch={handleSearch}
+          style={{ width: '100%', marginBottom: 16 }}
         />
       </div>
+
+      {error && <p>Error: {error}</p>}
+
+      <div style={{ position: 'relative' }}>
+        {loading ? (
+          <Spin
+            size="large"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: 200,
+            }}
+          />
+        ) : (
+          <>
+            <Table
+              columns={columns}
+              dataSource={users}
+              rowKey="id"
+              pagination={false}
+            />
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={totalUsers}
+              onChange={handlePageChange}
+              onShowSizeChange={handlePageChange}
+              style={{ paddingTop: '20px', justifyContent: 'flex-end' }}
+            />
+          </>
+        )}
+      </div>
+
+      <AddUserForm
+        visible={isDrawerVisible}
+        onClose={closeDrawer}
+        onUserCreated={handleUserCreated}
+      />
     </div>
   );
 };
