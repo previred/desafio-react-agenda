@@ -1,11 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UsersContext } from '../contexts/UsersContext';
-import { Table, Input, Button, Space, Pagination, Spin, message } from 'antd';
-import { ColumnType } from 'antd/es/table';
+import { UsersContext } from '../../contexts/UsersContext';
+import {
+  Table,
+  Input,
+  Button,
+  Space,
+  Pagination,
+  Spin,
+  message,
+  Avatar,
+} from 'antd';
 import { PlusOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons';
-import { IUser } from '../types/userTypes';
-import { getUsers, deleteUser } from '../services/apiService';
-import AddUserForm from './AddUserForm';
+import { ColumnType } from 'antd/es/table';
+import { getUsers, deleteUser } from '../../services/apiService';
+import { IUser } from '../../types/userTypes';
+import AddUserForm from '../AddUserForm/AddUserForm';
+import styles from './UserList.module.css';
 
 const UserList: React.FC = () => {
   // Acceder al contexto
@@ -97,7 +107,9 @@ const UserList: React.FC = () => {
       message.success('Usuario eliminado exitosamente');
       fetchUsers(); // Recarga la lista de usuarios
     } catch (error) {
-      message.error(`Error al eliminar el usuario: ${error instanceof Error ? error.message : 'Error desconocido'}`);
+      message.error(
+        `Error al eliminar el usuario: ${error instanceof Error ? error.message : 'Error desconocido'}`,
+      );
     }
   };
 
@@ -127,47 +139,28 @@ const UserList: React.FC = () => {
   // Columnas de la tabla
   const columns: ColumnType<IUser>[] = [
     {
-      title: 'Nombre',
+      title: <span className={styles.headerTitle}>Nombre</span>,
       key: 'name',
       render: (_, record: IUser) => (
         <Space>
-          {record.photo && record.photo.endsWith('404.png') ? (
-            <UserOutlined style={{ fontSize: '30px' }} />
-          ) : (
-            <img
-              src={record.photo}
-              alt={record.name}
-              style={{ width: 30, height: 30, borderRadius: '50%' }}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'; // Oculta la imagen en caso de error
-
-                // Verifica si el error es 404 (Not Found)
-                if (e.currentTarget.naturalWidth === 0) {
-                  // Muestra el ícono UserOutlined como marcador de posición
-                  if (e.currentTarget.parentNode) {
-                    (
-                      e.currentTarget.parentNode as HTMLElement
-                    ).insertAdjacentHTML(
-                      'beforeend',
-                      '<span><UserOutlined style={{ fontSize: "30px" }} /></span>',
-                    );
-                  }
-                }
-              }}
-            />
-          )}
-          {record.name}
+          <Avatar
+            src={record.photo}
+            alt={record.name}
+            icon={<UserOutlined />}
+          />
+          <span className={styles.name}>{record.name}</span>
         </Space>
       ),
     },
     {
-      title: 'Descripción',
+      title: <span className={styles.headerTitle}>Descripción</span>,
       dataIndex: 'description',
       key: 'description',
     },
     {
-      title: 'Acciones',
+      title: <span className={styles.headerTitle}>Acciones</span>,
       key: 'actions',
+      align: 'center',
       render: (_: unknown, record: IUser) => (
         <DeleteOutlined onClick={() => handleDelete(record.id)} />
       ),
@@ -175,16 +168,12 @@ const UserList: React.FC = () => {
   ];
 
   return (
-    <div style={{ padding: 40 }}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-        }}
-      >
-        <h1>Agenda Previred - Mi agenda de contactos laboral</h1>
-        <p>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>
+          Agenda Previred - Mi agenda de contactos laboral
+        </h1>
+        <p className={styles.description}>
           Aquí podrá encontrar o buscar a todos sus contactos agregados, agregar
           nuevos contactos y eliminar contactos no deseados.
         </p>
@@ -196,13 +185,13 @@ const UserList: React.FC = () => {
         <Input.Search
           placeholder="Buscar contacto"
           onSearch={handleSearch}
-          style={{ width: '100%', marginBottom: 16 }}
+          className={styles.search}
         />
       </div>
 
       {error && <p>Error: {error}</p>}
 
-      <div style={{ position: 'relative' }}>
+      <div className={styles.spinContainer}>
         {loading ? (
           <Spin
             size="large"
@@ -210,7 +199,6 @@ const UserList: React.FC = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              minHeight: 200,
             }}
           />
         ) : (
@@ -227,7 +215,7 @@ const UserList: React.FC = () => {
               total={totalUsers}
               onChange={handlePageChange}
               onShowSizeChange={handlePageChange}
-              style={{ paddingTop: '20px', justifyContent: 'flex-end' }}
+              className={styles.pagination}
             />
           </>
         )}

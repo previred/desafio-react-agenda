@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Drawer, Form, Input, Button, message, Space } from 'antd';
-import { createUser } from '../services/apiService';
-import { IUser } from '../types/userTypes';
+import { createUser } from '../../services/apiService';
+import { IUser } from '../../types/userTypes';
+import styles from './AddUserForm.module.css';
 
+// Interfaz para las props del componente AddUserForm
 interface AddUserFormProps {
   visible: boolean;
   onClose: () => void;
   onUserCreated: () => void;
 }
 
+// Componente AddUserForm
 const AddUserForm: React.FC<AddUserFormProps> = ({
   visible,
   onClose,
@@ -32,8 +35,10 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
   return (
     <>
       <Drawer
-        title="Agregar Nuevo Contacto"
-        width={520}
+        title={
+          <span className={styles.drawerTitle}>Agregar Nuevo Contacto</span>
+        }
+        width={620}
         open={visible}
         onClose={onClose}
         extra={
@@ -48,7 +53,9 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
         <Form form={form} layout="vertical" onFinish={onSubmit}>
           <Form.Item
             name="photo"
-            label="URL imagen de Perfil"
+            label={
+              <span className={styles.boldLabel}>URL imagen de Perfil</span>
+            }
             rules={[
               {
                 required: true,
@@ -60,7 +67,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
           </Form.Item>
           <Form.Item
             name="name"
-            label="Nombre"
+            label={<span className={styles.boldLabel}>Nombre</span>}
             rules={[
               {
                 required: true,
@@ -72,7 +79,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({
           </Form.Item>
           <Form.Item
             name="description"
-            label="Descripción"
+            label={<span className={styles.boldLabel}>Descripción</span>}
             rules={[
               {
                 required: true,
