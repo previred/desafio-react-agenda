@@ -9,6 +9,7 @@ import {
   Spin,
   message,
   Avatar,
+  Typography,
 } from 'antd';
 import { PlusOutlined, DeleteOutlined, UserOutlined } from '@ant-design/icons';
 import { ColumnType } from 'antd/es/table';
@@ -170,13 +171,13 @@ const UserList: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>
+        <Typography.Title level={1}>
           Agenda Previred - Mi agenda de contactos laboral
-        </h1>
-        <p className={styles.description}>
+        </Typography.Title>
+        <Typography.Paragraph>
           Aquí podrá encontrar o buscar a todos sus contactos agregados, agregar
           nuevos contactos y eliminar contactos no deseados.
-        </p>
+        </Typography.Paragraph>
         <div style={{ marginBottom: 16 }}>
           <Button type="primary" icon={<PlusOutlined />} onClick={showDrawer}>
             Agregar Contacto
