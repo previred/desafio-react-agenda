@@ -43,13 +43,13 @@ const UserList: React.FC = () => {
     setIsDrawerVisible(false);
   };
 
-  // Función para actualizar la lista de usuarios después de agregar uno nuevo
+  // Actualizar la lista de usuarios después de agregar uno nuevo
   const handleUserCreated = () => {
     closeDrawer();
     reloadUsers();
   };
 
-  // Función para recargar los usuarios (realtime)
+  // Recargar los usuarios (realtime)
   const reloadUsers = async () => {
     setLoading(true);
     try {
@@ -77,7 +77,13 @@ const UserList: React.FC = () => {
         setTotalUsers(response.total);
       })
       .catch((error) => {
-        setError(error.message);
+        if (error instanceof Error) {
+          // Maneja errores específicos de la API o errores de red
+          setError(`Error al cargar los usuarios: ${error.message}`);
+        } else {
+          // Maneja otros tipos de errores
+          setError('Ocurrió un error inesperado al cargar los usuarios');
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -91,7 +97,7 @@ const UserList: React.FC = () => {
       message.success('Usuario eliminado exitosamente');
       fetchUsers(); // Recarga la lista de usuarios
     } catch (error) {
-      message.error('Hubo un error al eliminar el usuario');
+      message.error(`Error al eliminar el usuario: ${error instanceof Error ? error.message : 'Error desconocido'}`);
     }
   };
 

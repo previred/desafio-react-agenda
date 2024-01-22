@@ -54,9 +54,9 @@ export const UsersProvider: React.FC<UsersProviderProps> = ({ children }) => {
       setTotalUsers(result.total);
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setError(`Error al cargar los usuarios: ${err.message}`);
       } else {
-        setError('Ocurrió un error al cargar los usuarios');
+        setError('Ocurrió un error inesperado al cargar los usuarios');
       }
     } finally {
       setLoading(false);
