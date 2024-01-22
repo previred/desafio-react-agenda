@@ -93,14 +93,13 @@ const UserList: React.FC = () => {
     }
   };
 
-  // Dentro de tu componente UserList
   const handleSearch = (value: string) => {
     setSearchText(value.toLowerCase());
     setLoading(true);
     getUsers(1, pageSize, value) // Restablece a la primera página y pasa el término de búsqueda
       .then(response => {
         setUsers(response.data); // Actualiza con los usuarios filtrados
-        setTotalUsers(response.total); // Actualiza el total de usuarios (si tu API lo soporta)
+        setTotalUsers(response.total); // Actualiza el total de usuarios
       })
       .catch(error => {
         setError(error.message);
@@ -109,7 +108,6 @@ const UserList: React.FC = () => {
         setLoading(false);
       });
   };
-
 
   const handlePageChange = (page: number, pageSize: number) => {
     setCurrentPage(page);
