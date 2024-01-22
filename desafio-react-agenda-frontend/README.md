@@ -25,3 +25,5 @@ npm run format
 ```
 
 Este proyecto fue creado usando la versión 18 de React y una vez iniciado, se puede acceder a él desde el navegador en la dirección: localhost:3000.
+
+Además se hizo uso de API-Context, hooks, librería de estilos de Ant Design, entre otros.
