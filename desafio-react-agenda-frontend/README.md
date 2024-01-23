@@ -29,5 +29,5 @@ Este proyecto fue creado usando la versión 18 de React y una vez iniciado, se p
 Además se hizo uso de API-Context, hooks, librería de estilos de Ant Design, entre otros.
 
 ## Imágenes de la aplicación
-![Texto alternativo](./public/desafio_1.png "Vista 1 de la aplicación")
-![Texto alternativo](./public/desafio_2.png "Vista 2 de la aplicación")
+![Vista 1 de la aplicación](./public/desafio_1.png "Vista 1 de la aplicación")
+![Vista 2 de la aplicación](./public/desafio_2.png "Vista 2 de la aplicación")
