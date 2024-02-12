@@ -30,10 +30,10 @@ const TableData: React.FC = () => {
             id: resp.id ?? '',
             name: resp.name ?? '',
             description: resp.description ?? '',
-            photo: resp.photo ?? ''
+            photo: resp.photo ?? '',
+            loading: false
           })
           setTimeout(() => {
-            setDataForm({ ...formData, loading: false })
             handleOpenDrawer() // levando el drawer
           }, 1000)
         } else {

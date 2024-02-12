@@ -15,13 +15,16 @@ export const PageContextProviderAgenda = ({ children }: any) => {
   const [isData, setIsData] = useState<number>(-1) // valido que todo este cargado correcto para mostrar informacion
 
   const handleLoadData = (q: string, _page?: number, _limit?: number) => {
-    setIsData(1)
     setDataAngenda({ ...dataAgenda, loading: true, data: null })
     webApiService
       .getListLoardService()
       .then((response) => response)
       .then((data) => {
         if (data) {
+          setTimeout(() => {
+            setIsData(1)
+          }, 2000)
+
           setDataAngenda({ ...dataAgenda, loading: false, data })
           data.length > 10 && setParameters({ ...parameters, _page: +1 })
         } else {
