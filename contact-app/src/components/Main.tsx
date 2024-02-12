@@ -1,5 +1,5 @@
 import { Button, Col, Divider, Drawer, Form, Input, Row, Space, Table, Typography } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { SearchProps } from 'antd/es/input/Search';
@@ -10,6 +10,9 @@ const { Search } = Input;
 const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 
 const { Title, Paragraph } = Typography;
+
+
+
 
 interface DataType {
   key: string;
@@ -76,6 +79,31 @@ const Main: React.FC = () => {
   const onClose: () => void = () => {
     setOpenDrawer(false)
   }
+
+  const getContacts = async () => {
+    try {
+      const response = await fetch('http://localhost:9000/api/users', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const jsonContactsData = await response.json();
+      console.log(jsonContactsData);
+
+    } catch (error) {
+      console.error("Error getting contacts: ", error);
+    }
+  }
+
+  useEffect(() => {
+    getContacts();
+  }, [])
 
 
   return (
@@ -158,7 +186,7 @@ const Main: React.FC = () => {
         </Form>
       </Drawer>
     </div>
- 
+
 
 
   );
