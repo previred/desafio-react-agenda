@@ -1,10 +1,20 @@
+import { ConfigProvider } from 'antd';
 import './App.css';
+import Main from './components/Main';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      Contacts APP
-    </div>
+    <ConfigProvider
+      theme={{
+        token: {
+          fontFamily: 'Roboto',
+        },
+      }}
+    >
+      <div className="App">
+        <Main />
+      </div>
+    </ConfigProvider>
   );
 }
 
