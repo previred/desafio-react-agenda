@@ -18,8 +18,8 @@ interface GetUsersResponse {
 }
 
 const UsersApi = {
-    getUsers: (page: number, limit: number = 10): Promise<GetUsersResponse> => {
-        return fetch(`${SERVER_ADDRESS}/api/users?_page=${page}&_limit=${limit}`, {})
+    getUsers: (page: number, query: string, limit: number = 10): Promise<GetUsersResponse> => (
+        fetch(`${SERVER_ADDRESS}/api/users?_page=${page}&_limit=${limit}&q=${query}`, {})
             .then(async (res: Response) => ({
                 users: await res.json(),
                 pagination: {
@@ -29,7 +29,7 @@ const UsersApi = {
                     total: Number.parseInt(res.headers.get('X-Total-Count') || '1')
                 }
             }))
-    }
+    )
 }
 
 export default UsersApi
