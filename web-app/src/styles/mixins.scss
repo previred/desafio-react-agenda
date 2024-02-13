@@ -1,0 +1,186 @@
+.w100 {
+    width: 100%;
+}
+
+.w-auto {
+    width: auto;
+}
+
+.h100 {
+    height: 100%;
+}
+
+.relative {
+    position: relative;
+}
+
+.o-hidden {
+    overflow: hidden;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
+.pointer-all {
+    pointer-events: all;
+}
+
+.pointer-none {
+    pointer-events: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.line-normal {
+    line-height: normal;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.text-10 {
+    font-size: 0.715rem;
+}
+
+.text-12 {
+    font-size: 0.857rem;
+}
+
+.text-13 {
+    font-size: 0.929rem;
+}
+
+.text-14 {
+    font-size: 1rem;
+}
+
+.text-16 {
+    font-size: 1.143rem;
+}
+
+.text-18 {
+    font-size: 1.286rem;
+}
+
+.text-20 {
+    font-size: 1.429rem;
+}
+
+.text-22 {
+    font-size: 1.572rem;
+}
+
+.text-24 {
+    font-size: 1.715rem;
+}
+
+.text-26 {
+    font-size: 1.858rem;
+}
+
+.text-28 {
+    font-size: 2rem;
+}
+
+.text-30 {
+    font-size: 2.142857rem;
+}
+
+.text-32 {
+    font-size: 2.285714rem;
+}
+
+
+$paddings: (
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    20,
+    24
+);
+
+@each $padding in $paddings {
+    .pd-#{$padding} {
+        padding: #{$padding}px;
+    }
+
+    .pdt-#{$padding} {
+        padding-top: #{$padding}px;
+    }
+
+    .pdb-#{$padding} {
+        padding-bottom: #{$padding}px;
+    }
+
+    .pdl-#{$padding} {
+        padding-left: #{$padding}px;
+    }
+
+    .pdr-#{$padding} {
+        padding-right: #{$padding}px;
+    }
+
+    .pdh-#{$padding} {
+        padding-left: #{$padding}px;
+        padding-right: #{$padding}px;
+    }
+
+    .pdv-#{$padding} {
+        padding-top: #{$padding}px;
+        padding-bottom: #{$padding}px;
+    }
+
+    .mt-#{$padding} {
+        margin-top: #{$padding}px;
+    }
+
+    .mb-#{$padding} {
+        margin-bottom: #{$padding}px;
+    }
+
+    .ml-#{$padding} {
+        margin-left: #{$padding}px;
+    }
+
+    .mr-#{$padding} {
+        margin-right: #{$padding}px;
+    }
+
+    .mh-#{$padding} {
+        margin-left: #{$padding}px;
+        margin-right: #{$padding}px;
+    }
+
+    .mv-#{$padding} {
+        margin-top: #{$padding}px;
+        margin-bottom: #{$padding}px;
+    }
+}
