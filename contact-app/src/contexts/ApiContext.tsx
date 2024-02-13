@@ -1,6 +1,7 @@
+import { error } from "console";
 import { createContext, useContext, useState, ReactNode } from "react"
 
-interface User {
+interface Contact {
   key: string;
   id: string;
   name: string;
@@ -10,20 +11,23 @@ interface User {
 }
 
 interface ApiContextProps {
-  users: User[];
-  getUsers: () => void;
-  //usersImageExists: boolean[];
+  contacts: Contact[];
+  getContacts: () => void;
+  addContact: (contact: Contact) => Promise<void>;
+  //contactsImageExists: boolean[];
 }
 
 const ApiContext = createContext<ApiContextProps | undefined >(undefined);
 
-export const ApiProvider: React.FC<{ children : ReactNode }> = ({children}) => {
-  const [ users, setUsers ] = useState<User[]>([]);
-  //const [ usersImageExists, setUsersImageExists ] = useState<boolean[]>([]);
+const APIurl = 'http://localhost:9000/api/users'
 
-  const getUsers = async () => {
+export const ApiProvider: React.FC<{ children : ReactNode }> = ({children}) => {
+  const [ contacts, setContacts ] = useState<Contact[]>([]);
+  //const [ contactsImageExists, setContactsImageExists ] = useState<boolean[]>([]);
+
+  const getContacts = async () => {
     try{
-      const response = await fetch('http://localhost:9000/api/users',{
+      const response = await fetch( APIurl ,{
         method: 'GET',
         headers:{
           'Content-Type': 'application/json',
@@ -35,11 +39,11 @@ export const ApiProvider: React.FC<{ children : ReactNode }> = ({children}) => {
       }
 
       const jsonContactsData = await response.json();
-      setUsers(jsonContactsData);
+      setContacts(jsonContactsData);
 
       // Verificar la existencia de las imágenes aquí y actualizar el estado
       /*const imageExistence = await Promise.all(
-        jsonContactsData.map(async (user: User) => {
+        jsonContactsData.map(async (user: Contact) => {
           try {
             await fetch(user.photo, { method: 'HEAD' });
             return true;
@@ -49,17 +53,37 @@ export const ApiProvider: React.FC<{ children : ReactNode }> = ({children}) => {
         })
       );
 
-      setUsersImageExists(imageExistence);*/
+      setContactsImageExists(imageExistence);*/
 
     } catch (error){
-      console.error('Error getting users: ', error);
+      console.error('Error getting contacts: ', error);
+    }
+  }
+
+  const addContact = async ( contactData:Partial<Contact> ) => {
+    try{
+      const response = await fetch( APIurl, {
+        method: 'POST',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactData)
+
+      });
+      if( !response.ok ){
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+      getContacts();
+    } catch ( error ){
+      console.error('Error creating Contact:', error)
     }
   }
 
   const contextValue: ApiContextProps = {
-    users,
-    getUsers
-    //usersImageExists,
+    contacts,
+    getContacts,
+    addContact
+    //contactsImageExists,
   };
 
   return <ApiContext.Provider value={contextValue}>{ children }</ApiContext.Provider>

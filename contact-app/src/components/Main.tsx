@@ -6,7 +6,7 @@ import { useApi } from '../contexts/ApiContext';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { SearchProps } from 'antd/es/input/Search';
 import type { TableProps } from 'antd';
-import { text } from 'stream/consumers';
+import { useForm } from 'antd/es/form/Form';
 
 
 const { Search } = Input;
@@ -75,15 +75,16 @@ const dataContacts: DataType[] = [
 */
 const Main: React.FC = () => {
 
-  const { users, getUsers } = useApi();
+  const { contacts, getContacts, addContact } = useApi();
+  const [form] = useForm();
 
   useEffect(() => {
-    getUsers();
+    getContacts();
   }, []);
 
   useEffect(() => {
-    console.log("Usuarios:", users);
-  }, [users]);
+    console.log("Usuarios:", contacts);
+  }, [contacts]);
 
   
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -96,6 +97,17 @@ const Main: React.FC = () => {
     setOpenDrawer(false)
   }
 
+  const onFinish = async ( values: any ) => {
+
+    try{
+      await addContact( values );
+      onClose();
+      form.resetFields();
+    } catch (error){
+      console.error('Error adding contact:', error);
+    }
+
+  }
 
   return (
 
@@ -120,7 +132,7 @@ const Main: React.FC = () => {
       </Space>
       <Divider />
 
-      <Table rowKey="id" columns={columns} dataSource={users} />
+      <Table rowKey="id" columns={columns} dataSource={contacts} />
 
       <Drawer
         title='Agregar nuevo Contacto'
@@ -130,15 +142,15 @@ const Main: React.FC = () => {
         extra={
           <Space>
             <Button onClick={onClose}>Cancelar</Button>
-            <Button type='primary' onClick={onClose}>Guardar</Button>
+            <Button type='primary' htmlType='submit' onClick={() => form.submit() }>Guardar</Button>
           </Space>
         }
       >
-        <Form layout='vertical'>
+        <Form form={form} layout='vertical' onFinish={onFinish}>
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
-                name="url"
+                name="photo"
                 label="URL imagen de Perfil"
                 rules={[{ required: true, message: 'Por favor, ingrese url de la imagen de perfil' }]}
               >
