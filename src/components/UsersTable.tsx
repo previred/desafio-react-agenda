@@ -5,7 +5,12 @@ import { DeleteOutlined, UserOutlined } from "@ant-design/icons"
 import { useUsersContext } from "../context"
 import { User } from "../services/UsersApi.ts"
 
-const columns: TableProps<User>['columns'] = [
+interface UsersTableProps {
+    showSuccess: (content: string) => void
+    showError: (content: string) => void
+}
+
+const getColumns = (deleteHandler: (id: number, name: string) => void): TableProps<User>['columns'] => ([
     {
         title: 'Nombre',
         key: 'name',
@@ -29,17 +34,23 @@ const columns: TableProps<User>['columns'] = [
         render: (_, record) => (
             <DeleteOutlined
                 style={{ fontSize: '24px' }}
-                onClick={ () => console.log('delete ', record.id)}
+                onClick={() => deleteHandler(record.id, record.name)}
             />
         )
     }
-]
+])
 
-const UsersTable: FC = (): ReactElement => {
-    const { tableUsers, tablePagination, fetchPage } = useUsersContext()
+const UsersTable: FC<UsersTableProps> = ({ showSuccess, showError }): ReactElement => {
+    const { tableUsers, tablePagination, fetchPage, deleteUser } = useUsersContext()
+    const deleteHandler = (id: number, name: string) => {
+        deleteUser(id)
+            .then(() => showSuccess(`Usuario "${name}" eliminado`))
+            .catch(() => showError(`Ocurrio un error al eliminar a "${name}"`))
+    }
+
     return (
         <Table
-            columns={columns}
+            columns={getColumns(deleteHandler)}
             rowKey={'id'}
             dataSource={tableUsers}
             pagination={{

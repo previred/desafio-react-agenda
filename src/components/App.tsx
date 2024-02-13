@@ -1,5 +1,5 @@
 import { FC, ReactElement } from "react"
-import { Layout, theme, Typography } from "antd"
+import { Layout, message, theme, Typography } from "antd"
 
 import './app.css'
 import { UsersProvider } from "../context"
@@ -9,6 +9,11 @@ import { NewUser } from "./NewUser.tsx"
 
 const App: FC = () : ReactElement => {
     const { token: { colorBgContainer }} = theme.useToken()
+    const [messageApi, messageContextHolder] = message.useMessage()
+
+    const showSuccessMessage = (content: string) => messageApi.open({ type: "success", content, duration: 3})
+    const showErrorMessage = (content: string) => messageApi.open({ type: "error", content, duration: 3 })
+
 
     return (
         <UsersProvider>
@@ -17,6 +22,8 @@ const App: FC = () : ReactElement => {
                     background: colorBgContainer,
                     padding: '0 48px'
                 }} >
+                    {messageContextHolder}
+
                     <Typography.Title level={2}>
                         Agenda Previred - Mi agenda de contactos laboral
                     </Typography.Title>
@@ -29,7 +36,7 @@ const App: FC = () : ReactElement => {
 
                     <FilterResults />
 
-                    <UsersTable />
+                    <UsersTable showSuccess={showSuccessMessage} showError={showErrorMessage}/>
                 </Layout.Content>
             </Layout>
         </UsersProvider>

@@ -42,6 +42,16 @@ export const UsersProvider: FC<UsersProviderProps> = ({ children }): ReactElemen
             })
     }
 
+    const deleteUser = (id: number): Promise<any> => (
+        UsersApi.deleteUser(id)
+            .then((res) => {
+                console.log(res)
+
+                // clear filter, and query from the start
+                return fetchQuery(DEFAULT_QUERY)
+            })
+    )
+
     useEffect(() => {
         fetchPage(1)
     }, [])
@@ -52,6 +62,7 @@ export const UsersProvider: FC<UsersProviderProps> = ({ children }): ReactElemen
             tablePagination,
             fetchPage,
             fetchQuery,
+            deleteUser,
         }} >
             {children}
         </UsersContext.Provider>

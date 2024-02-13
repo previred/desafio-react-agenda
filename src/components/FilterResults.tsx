@@ -13,7 +13,6 @@ export const FilterResults: FC = (): ReactElement => {
             allowClear
             // click on search icon / click on clear icon / press Enter
             onSearch={value => fetchQuery(value)}
-
         />
     )
 }
