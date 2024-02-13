@@ -1,9 +1,12 @@
-import { Button, Col, Divider, Drawer, Form, Input, Row, Space, Table, Typography } from 'antd';
+import { Button, Col, Divider, Drawer, Form, Input, Row, Space, Table, Typography, Avatar } from 'antd';
 import { useEffect, useState } from 'react';
+
+import { useApi } from '../contexts/ApiContext';
 
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { SearchProps } from 'antd/es/input/Search';
 import type { TableProps } from 'antd';
+import { text } from 'stream/consumers';
 
 
 const { Search } = Input;
@@ -11,65 +14,78 @@ const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?
 
 const { Title, Paragraph } = Typography;
 
-
-
-
 interface DataType {
   key: string;
+  id: string;
   name: string;
   description: string;
-  action: string;
+  photo: string;
 }
 
 const columns: TableProps<DataType>['columns'] = [
   {
     title: 'Nombre',
     dataIndex: 'name',
-    key: 'name'
+    key: 'id',
+    render: (text, record) => (
+      <>
+        {record.photo ? (
+          <Avatar src={record.photo} />
+        ) : (
+          <Avatar>{text}</Avatar>
+        )}
+      </>
+    )
   },
   {
     title: 'Descripción',
     dataIndex: 'description',
-    key: 'description'
   },
   {
     title: 'Acciones',
     dataIndex: 'action',
-    key: 'action',
     render: (_, record) => (
-      <DeleteOutlined onClick={() => { console.log(record.key) }} />
+      <DeleteOutlined onClick={() => { console.log(record.id) }} />
     ),
   }
 ]
-const data: DataType[] = [
+/*
+const dataContacts: DataType[] = [
   {
     key: '1',
     name: 'Wally West',
-    description: 'Fastest man alive',
-    action: 'Delete'
+    description: 'Fastest man alive'
   },
   {
     key: '2',
     name: 'Bruce Wayne',
-    description: 'Dark Night',
-    action: 'Delete'
+    description: 'Dark Night'
   },
   {
     key: '3',
     name: 'Clark Kent',
-    description: 'Man of Tomorrow',
-    action: 'Delete'
+    description: 'Man of Tomorrow'
   },
   {
     key: '4',
     name: 'Diana Price',
-    description: 'Princess of Themyscira',
-    action: 'Delete'
+    description: 'Princess of Themyscira'
   }
 ]
-
+*/
 const Main: React.FC = () => {
 
+  const { users, getUsers } = useApi();
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    console.log("Usuarios:", users);
+  }, [users]);
+
+  
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const showDrawer: () => void = () => {
@@ -80,34 +96,8 @@ const Main: React.FC = () => {
     setOpenDrawer(false)
   }
 
-  const getContacts = async () => {
-    try {
-      const response = await fetch('http://localhost:9000/api/users', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`)
-      }
-
-      const jsonContactsData = await response.json();
-      console.log(jsonContactsData);
-
-    } catch (error) {
-      console.error("Error getting contacts: ", error);
-    }
-  }
-
-  useEffect(() => {
-    getContacts();
-  }, [])
-
 
   return (
-
 
     <div className='container'>
       <Typography>
@@ -130,7 +120,7 @@ const Main: React.FC = () => {
       </Space>
       <Divider />
 
-      <Table columns={columns} dataSource={data} />
+      <Table rowKey="id" columns={columns} dataSource={users} />
 
       <Drawer
         title='Agregar nuevo Contacto'

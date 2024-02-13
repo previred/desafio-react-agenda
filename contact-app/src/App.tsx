@@ -1,6 +1,7 @@
 import { ConfigProvider } from 'antd';
 import './App.css';
 import Main from './components/Main';
+import{ ApiProvider } from './contexts/ApiContext'
 
 const App: React.FC = () => {
   return (
@@ -11,9 +12,11 @@ const App: React.FC = () => {
         },
       }}
     >
-      <div className="App">
-        <Main />
-      </div>
+      <ApiProvider>
+        <div className="App">
+          <Main />
+        </div>
+      </ApiProvider>
     </ConfigProvider>
   );
 }
