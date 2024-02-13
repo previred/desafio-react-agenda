@@ -32,11 +32,11 @@ const App: FC = () : ReactElement => {
                         eliminar contactos no deseados.
                     </Typography.Paragraph>
 
-                    <NewUser />
+                    <NewUser showSuccess={showSuccessMessage} showError={showErrorMessage} />
 
                     <FilterResults />
 
-                    <UsersTable showSuccess={showSuccessMessage} showError={showErrorMessage}/>
+                    <UsersTable showSuccess={showSuccessMessage} showError={showErrorMessage} />
                 </Layout.Content>
             </Layout>
         </UsersProvider>

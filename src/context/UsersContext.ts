@@ -1,6 +1,6 @@
 import { Context, createContext } from "react"
 
-import { User, UsersPagination } from "../services/UsersApi.ts"
+import { CreateUserBody, User, UsersPagination } from "../services/UsersApi.ts"
 
 export interface UsersContextProps {
     tableUsers: User[]
@@ -8,6 +8,7 @@ export interface UsersContextProps {
     fetchPage: (page: number) => void
     fetchQuery: (query: string) => void
     deleteUser: (id: number) => Promise<any>
+    createUser: (body: CreateUserBody) => Promise<any>
 }
 
 // force to set the defaultValue to undefined

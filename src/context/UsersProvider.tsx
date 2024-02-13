@@ -1,7 +1,7 @@
 import { FC, ReactElement, ReactNode, useEffect, useState } from "react"
 
 import { UsersContext } from "./UsersContext.ts"
-import UsersApi, { User, UsersPagination } from "../services/UsersApi.ts"
+import UsersApi, { CreateUserBody, User, UsersPagination } from "../services/UsersApi.ts"
 
 interface UsersProviderProps {
     children?: ReactNode
@@ -43,13 +43,15 @@ export const UsersProvider: FC<UsersProviderProps> = ({ children }): ReactElemen
     }
 
     const deleteUser = (id: number): Promise<any> => (
+        // after delete: clear filter, and query from the start
         UsersApi.deleteUser(id)
-            .then((res) => {
-                console.log(res)
+            .then(() => fetchQuery(DEFAULT_QUERY))
+    )
 
-                // clear filter, and query from the start
-                return fetchQuery(DEFAULT_QUERY)
-            })
+    const createUser = (body: CreateUserBody): Promise<any> => (
+        // after create: clear filter, and query from the start
+        UsersApi.createUser(body)
+            .then(() => fetchQuery(DEFAULT_QUERY))
     )
 
     useEffect(() => {
@@ -63,6 +65,7 @@ export const UsersProvider: FC<UsersProviderProps> = ({ children }): ReactElemen
             fetchPage,
             fetchQuery,
             deleteUser,
+            createUser,
         }} >
             {children}
         </UsersContext.Provider>

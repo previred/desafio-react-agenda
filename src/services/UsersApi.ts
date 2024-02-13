@@ -17,7 +17,17 @@ interface GetUsersResponse {
     pagination: UsersPagination
 }
 
-interface DeleteUserResponse {
+export interface DeleteUserResponse {
+    // empty response
+}
+
+export interface CreateUserBody {
+    name: string
+    description: string
+    photo: string
+}
+
+export interface CreateUserResponse {
     // empty response
 }
 
@@ -45,11 +55,18 @@ const UsersApi = {
     deleteUser: (id: number): Promise<DeleteUserResponse> => (
         fetch(`${SERVER_ADDRESS}/api/users/${id}`, { method: 'DELETE' })
             .then(throwErrorIfNotOk)
-            .then((res: Response) => {
-                console.log('delete', res)
-                return res.json()
-            })
-    )
+            .then((res: Response) => res.json())
+    ),
+
+    createUser: (body: CreateUserBody): Promise<CreateUserResponse> => (
+        fetch(`${SERVER_ADDRESS}/api/users`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        })
+            .then(throwErrorIfNotOk)
+            .then((res: Response) => res.json())
+    ),
 }
 
 export default UsersApi
