@@ -1,4 +1,3 @@
-import { error } from "console";
 import { createContext, useContext, useState, ReactNode } from "react"
 
 interface Contact {
@@ -14,6 +13,7 @@ interface ApiContextProps {
   contacts: Contact[];
   getContacts: () => void;
   addContact: (contact: Contact) => Promise<void>;
+  removeContact: ( id: string ) => Promise<void>;
   //contactsImageExists: boolean[];
 }
 
@@ -78,11 +78,29 @@ export const ApiProvider: React.FC<{ children : ReactNode }> = ({children}) => {
       console.error('Error creating Contact:', error)
     }
   }
+  const removeContact = async ( id:string ) => {
+    try{
+      const response = await fetch(`${APIurl}/${id}`, {
+        method: 'DELETE',
+        headers:{
+          'Content-Type': 'application/json',
+        },
+      });
+      if( !response.ok ){
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+      getContacts();
+    } catch ( error){
+      console.error('Error removing contact:', error);
+    }
+    
+  }
 
   const contextValue: ApiContextProps = {
     contacts,
     getContacts,
-    addContact
+    addContact,
+    removeContact,
     //contactsImageExists,
   };
 

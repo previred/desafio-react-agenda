@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Drawer, Form, Input, Row, Space, Table, Typography, Avatar } from 'antd';
+import { Button, Col, Divider, Drawer, Form, Input, Row, Space, Table, Typography, Avatar, Flex } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { useApi } from '../contexts/ApiContext';
@@ -21,34 +21,6 @@ interface DataType {
   description: string;
   photo: string;
 }
-
-const columns: TableProps<DataType>['columns'] = [
-  {
-    title: 'Nombre',
-    dataIndex: 'name',
-    key: 'id',
-    render: (text, record) => (
-      <>
-        {record.photo ? (
-          <Avatar src={record.photo} />
-        ) : (
-          <Avatar>{text}</Avatar>
-        )}
-      </>
-    )
-  },
-  {
-    title: 'Descripción',
-    dataIndex: 'description',
-  },
-  {
-    title: 'Acciones',
-    dataIndex: 'action',
-    render: (_, record) => (
-      <DeleteOutlined onClick={() => { console.log(record.id) }} />
-    ),
-  }
-]
 /*
 const dataContacts: DataType[] = [
   {
@@ -75,7 +47,7 @@ const dataContacts: DataType[] = [
 */
 const Main: React.FC = () => {
 
-  const { contacts, getContacts, addContact } = useApi();
+  const { contacts, getContacts, addContact, removeContact } = useApi();
   const [form] = useForm();
 
   useEffect(() => {
@@ -86,7 +58,7 @@ const Main: React.FC = () => {
     console.log("Usuarios:", contacts);
   }, [contacts]);
 
-  
+
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const showDrawer: () => void = () => {
@@ -97,17 +69,57 @@ const Main: React.FC = () => {
     setOpenDrawer(false)
   }
 
-  const onFinish = async ( values: any ) => {
-
-    try{
-      await addContact( values );
+  const onFinish = async (values: any) => {
+    try {
+      await addContact(values);
       onClose();
       form.resetFields();
-    } catch (error){
+    } catch (error) {
       console.error('Error adding contact:', error);
     }
-
   }
+
+  const handleRemoveContact = async (contactId: string) => {
+    try {
+      await removeContact(contactId);
+    } catch (error) {
+      console.error('Error removing contact:', error)
+    }
+  };
+
+  const columns: TableProps<DataType>['columns'] = [
+    {
+      title: 'Nombre',
+      dataIndex: 'name',
+      key: 'id',
+      width: '12rem',
+      render: (_, record) => (
+        <Flex gap="large" align='center'>
+          {record.photo ? (
+            <Avatar src={record.photo} />
+          ) : (
+            <Avatar>{record.name}</Avatar>
+          )}
+          <Typography>{record.name}</Typography>
+        </Flex>
+      )
+    },
+    {
+      title: 'Descripción',
+      dataIndex: 'description',
+    },
+    {
+      title: 'Acciones',
+      dataIndex: 'action',
+      width: '10rem',
+      align: 'center',
+      render: (_, record) => (
+        <DeleteOutlined onClick={() => {
+          handleRemoveContact(record.id)
+        }} />
+      ),
+    }
+  ]
 
   return (
 
@@ -142,7 +154,7 @@ const Main: React.FC = () => {
         extra={
           <Space>
             <Button onClick={onClose}>Cancelar</Button>
-            <Button type='primary' htmlType='submit' onClick={() => form.submit() }>Guardar</Button>
+            <Button type='primary' htmlType='submit' onClick={() => form.submit()}>Guardar</Button>
           </Space>
         }
       >
