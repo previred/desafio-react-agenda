@@ -23,7 +23,6 @@ export const UsersProvider: FC<UsersProviderProps> = ({ children }): ReactElemen
 
         UsersApi.getUsers(page, queryBy)
             .then(({ users, pagination}) => {
-                console.log(users, pagination, queryBy)
                 setTableUsers(users)
                 setTablePagination(pagination)
                 return users

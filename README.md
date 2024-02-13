@@ -54,3 +54,58 @@ Se pide específicamente el uso de [React](https://facebook.github.io/react/). v
 ### Plazos y envío
 
 Esta prueba considera un plazo máximo que podrás encontrar en el correo de contacto, y es además un criterio de evaluación, por lo que se espera una buen balance entre calidad y el tiempo usado. Una vez terminada la tarea, debes enviar un pull request al repositorio con tu nombre completo, correo y cargo al que postulas, además de notificar por correo que has finalizado la prueba. Cabe destacar, que todos los PRs serán rechazados una vez que se revisen, lo que no significa que tu proceso haya sido descartado, es sólo parte del procedimiento una vez que tu solución es revisada.
+
+----
+
+----
+
+----
+
+# Prueba para el cargo Ingeniero de Desarrollo FrontEnd, Alejandro Silva
+
+### Stack y dependencias
+
+Para el desarrollo se utilizo [Vite v5.1](https://vitejs.dev/), esto para tener rapidamente un ambiente de desarrollo 
+con HMR, por su proceso de bundling en el que se entregan los archivos listos para producción.
+
+Las vistas usan [React v18.2](https://es.react.dev/), y la libreria de componentes UI ContextProvider [Ant Design v5.14](https://ant.design/docs/react/introduce).
+
+No fueron necesarias otras librerias ni herramientas para solucionar el desafio tecnico.
+
+### Build para producción
+
+Con el comando `npm run start-prod` se ejecuta el bundler que corre typescript y `vite build`. Este genera artifacts listos para
+ser usados en producción (en la carpeta `/dist`)
+
+Acontinuación se ejecuta el proceso de express con `json-server`, sirviendo las paginas generadas.
+
+Se puede ver el resultado visitando [http://localhost:9000](http://localhost:9000).
+
+| Tabla con usuarios | Formulario nuevo usuario |
+| -- | -- |
+| ![Tabla con usuarios](https://github.com/AlejandroSilva/desafio-react-agenda/assets/569481/8f6c6088-6451-41fe-b1b3-8092fdbe6bb6) | ![Formulario nuevo usuario](https://github.com/AlejandroSilva/desafio-react-agenda/assets/569481/0a8f0587-1854-481b-927b-f93c36e9e558)   |
+
+
+### Desarrollo en local
+
+Con el comando `npm run start-dev` se ejecuta un servidor con `json-server` en el puerto 9000 con el API 
+([http://localhost:9000](http://localhost:9000)), y en paralelo Vite en modo desarrollo (con HMR) en [http://localhost:5173](http://localhost:5173)
+
+
+### Indicaciones para ejecutar el proyecto
+
+1) Instalar las dependencias
+```bash
+npm install
+```
+
+2) Generar los archivos de producción y levantar el servidor
+```bash
+npm run start-prod
+```
+
+3) Visitar la pagina: [http://localhost:9000](http://localhost:9000)
+
+### Contacto
+
+A través de [Linkedin](https://www.linkedin.com/in/asilva-dev/), o por el correo [pm5k.sk@gmail.com](pm5k.sk@gmail.com).
