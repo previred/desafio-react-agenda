@@ -8,10 +8,7 @@ import type { SearchProps } from 'antd/es/input/Search';
 import type { TableProps } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 
-
 const { Search } = Input;
-const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
-
 const { Title, Paragraph } = Typography;
 
 interface DataType {
@@ -21,45 +18,21 @@ interface DataType {
   description: string;
   photo: string;
 }
-/*
-const dataContacts: DataType[] = [
-  {
-    key: '1',
-    name: 'Wally West',
-    description: 'Fastest man alive'
-  },
-  {
-    key: '2',
-    name: 'Bruce Wayne',
-    description: 'Dark Night'
-  },
-  {
-    key: '3',
-    name: 'Clark Kent',
-    description: 'Man of Tomorrow'
-  },
-  {
-    key: '4',
-    name: 'Diana Price',
-    description: 'Princess of Themyscira'
-  }
-]
-*/
+
 const Main: React.FC = () => {
 
-  const { contacts, getContacts, addContact, removeContact } = useApi();
+  const { contacts, getContacts, addContact, removeContact, currentPage, currentLimit, totalContacts } = useApi();
   const [form] = useForm();
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   useEffect(() => {
     getContacts();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     console.log("Usuarios:", contacts);
   }, [contacts]);
 
-
-  const [openDrawer, setOpenDrawer] = useState(false);
 
   const showDrawer: () => void = () => {
     setOpenDrawer(true);
@@ -87,12 +60,22 @@ const Main: React.FC = () => {
     }
   };
 
+  const onSearch: SearchProps['onSearch'] = (value, event) => {
+    getContacts(value);
+  }
+
+  const onChange: SearchProps['onChange'] = (event) => {
+    const value = event.target.value;
+    getContacts(value);
+  }
+
   const columns: TableProps<DataType>['columns'] = [
     {
       title: 'Nombre',
       dataIndex: 'name',
       key: 'id',
       width: '12rem',
+      className: 'data-table--column-name',
       render: (_, record) => (
         <Flex gap="large" align='center'>
           {record.photo ? (
@@ -107,19 +90,36 @@ const Main: React.FC = () => {
     {
       title: 'Descripción',
       dataIndex: 'description',
+      className: 'data-table--column-description',
     },
     {
       title: 'Acciones',
       dataIndex: 'action',
       width: '10rem',
       align: 'center',
+      className: 'data-table--column-action',
       render: (_, record) => (
-        <DeleteOutlined onClick={() => {
+        <DeleteOutlined className='delete-icon' onClick={() => {
           handleRemoveContact(record.id)
         }} />
       ),
     }
   ]
+
+  const paginationConfig: TableProps<DataType>['pagination'] = {
+    current: currentPage,
+    pageSize: currentLimit,
+    total: totalContacts,
+    onChange: (current, pageSize) => {
+      console.log("change" + current + "  " + pageSize);
+      getContacts(undefined, current, pageSize);
+
+
+    },
+    onShowSizeChange: (current, size) => {
+      getContacts(undefined, current, size)
+    }
+  }
 
   return (
 
@@ -140,11 +140,11 @@ const Main: React.FC = () => {
           Agregar Contacto
         </Button>
 
-        <Search placeholder="input search text" allowClear onSearch={onSearch} style={{ width: 200 }} />
+        <Search placeholder="input search text" allowClear onSearch={onSearch} onChange={onChange} style={{ width: 200 }} />
       </Space>
       <Divider />
 
-      <Table rowKey="id" columns={columns} dataSource={contacts} />
+      <Table rowKey="id" columns={columns} dataSource={contacts} pagination={paginationConfig} />
 
       <Drawer
         title='Agregar nuevo Contacto'
