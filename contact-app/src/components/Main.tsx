@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Drawer, Form, Input, Row, Space, Table, Typography, Avatar, Flex } from 'antd';
+import { Button, Col, Divider, Drawer, Form, Input, Row, Space, Table, Typography, Avatar, Flex, Modal, message } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { useApi } from '../contexts/ApiContext';
@@ -24,15 +24,28 @@ const Main: React.FC = () => {
   const { contacts, getContacts, addContact, removeContact, currentPage, currentLimit, totalContacts } = useApi();
   const [form] = useForm();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = (actionSuccess: string) => {
+
+    const messageSuccess = actionSuccess === 'add' ? '¡Contacto agregado correctamente!' : '¡Contacto eliminado correctamente!'
+    const typeSuccess = actionSuccess === 'add' ? 'success' : 'error'
+
+    messageApi.open({
+      type: typeSuccess,
+      content: messageSuccess,
+    });
+  };
 
   useEffect(() => {
     getContacts();
   }, [currentPage]);
 
+  /*
   useEffect(() => {
     console.log("Usuarios:", contacts);
   }, [contacts]);
-
+  */
 
   const showDrawer: () => void = () => {
     setOpenDrawer(true);
@@ -42,23 +55,41 @@ const Main: React.FC = () => {
     setOpenDrawer(false)
   }
 
+  const handleRemoveContact = (contactId: string) => {
+    Modal.confirm({
+      title: '¿Desea borrar este contacto?',
+      content: 'Una vez borrado no podrá recuperarlo',
+      onOk: () => okRemoveContact(contactId),
+      footer: (_, { OkBtn, CancelBtn }) => (
+        <>
+          <CancelBtn />
+          <OkBtn />
+        </>
+      ),
+    }
+    )
+  };
+
+  const okRemoveContact = async (contactId: string) => {
+    try {
+      await removeContact(contactId);
+      success('remove');
+    } catch (error) {
+      console.error('Error removing contact:', error)
+    }
+
+  };
+
   const onFinish = async (values: any) => {
     try {
       await addContact(values);
       onClose();
       form.resetFields();
+      success('add');
     } catch (error) {
       console.error('Error adding contact:', error);
     }
   }
-
-  const handleRemoveContact = async (contactId: string) => {
-    try {
-      await removeContact(contactId);
-    } catch (error) {
-      console.error('Error removing contact:', error)
-    }
-  };
 
   const onSearch: SearchProps['onSearch'] = (value, event) => {
     getContacts(value);
@@ -111,7 +142,6 @@ const Main: React.FC = () => {
     pageSize: currentLimit,
     total: totalContacts,
     onChange: (current, pageSize) => {
-      console.log("change" + current + "  " + pageSize);
       getContacts(undefined, current, pageSize);
 
 
@@ -142,6 +172,7 @@ const Main: React.FC = () => {
 
         <Search placeholder="input search text" allowClear onSearch={onSearch} onChange={onChange} style={{ width: 200 }} />
       </Space>
+
       <Divider />
 
       <Table rowKey="id" columns={columns} dataSource={contacts} pagination={paginationConfig} />
@@ -199,9 +230,10 @@ const Main: React.FC = () => {
           </Row>
         </Form>
       </Drawer>
+
+      {contextHolder}
+
     </div>
-
-
 
   );
 }

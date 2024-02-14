@@ -114,6 +114,9 @@ export const ApiProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       console.error('Error creating Contact:', error)
     }
   }
+
+  /************** DELETE CONTACT by ID **************/
+
   const removeContact = async (id: string) => {
     try {
       const response = await fetch(`${APIurl}/${id}`, {
