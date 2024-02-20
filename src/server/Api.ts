@@ -20,4 +20,13 @@ export class Api<T> implements IApi<T> {
     const { status } = await axios.delete(`${this.url}/${id}`);
     return status;
   }
+
+  async saveUser(dataUser: T): Promise<T> {
+    const { data } = await axios.post<T>(
+      this.url,
+      { ...dataUser },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return data;
+  }
 }

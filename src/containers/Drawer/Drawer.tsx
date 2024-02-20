@@ -1,29 +1,57 @@
-import { Col, Drawer as DrawerAnt, Form, Row, Space } from "antd";
-import { useContext } from "react";
-import { UserContext } from "../../Context/context";
+import { useState } from "react";
+import { Alert, Col, Drawer as DrawerAnt, Form, Row, Space } from "antd";
+
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
+import { useUsers } from "../../hook/useUser";
+import { User } from "../../api/User/User.type";
+
+import "./Drawer.scss";
 
 export const Drawer = () => {
-  const { stateUsers, changeIsOpenDraw } = useContext(UserContext);
-  const { isOpenDrawer } = stateUsers;
-  //TODO:dejarlo en customHook :D
-  const onCloseDrawe = () => {
-    changeIsOpenDraw(false);
+  const { saveUser, loadUserList, onCloseDrawer, isOpen, isDisabledForm } =
+    useUsers();
+
+  const [formData, setFormData] = useState<Partial<User>>();
+
+  const onSaveUser = () => {
+    saveUser(formData as User)
+      .then((res) => {
+        if (res.id) {
+          alert("Usuario Agregado!");
+        }
+      })
+      .finally(() => {
+        loadUserList();
+        onCloseDrawer();
+      });
   };
 
   return (
     <DrawerAnt
       title="Agregar un nuevo contacto"
-      onClose={onCloseDrawe}
-      open={isOpenDrawer}
+      onClose={onCloseDrawer}
+      open={isOpen}
       extra={
         <Space>
-          <Button onClick={onCloseDrawe} label="Cancelar" />
-          <Button onClick={onCloseDrawe} label="Guardar" type="primary" />
+          <Button onClick={onCloseDrawer} label="Cancelar" />
+          <Button
+            onClick={onSaveUser}
+            label="Guardar"
+            type="primary"
+            disabled={isDisabledForm(formData as User)}
+          />
         </Space>
       }>
       <Form layout="vertical" requiredMark>
+        {isDisabledForm(formData as User) && (
+          <Alert
+            message=" Por favor complete los campos requeridos para habilitar boton
+          guardar"
+            type="warning"
+            className="drawer__alert"
+          />
+        )}
         <Row gutter={12}>
           <Col span={24}>
             <Form.Item
@@ -38,6 +66,9 @@ export const Drawer = () => {
               <Input
                 placeholder="Porfavor ingrese la url de su avatar"
                 size="large"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, photo: event.currentTarget.value })
+                }
               />
             </Form.Item>
           </Col>
@@ -50,7 +81,12 @@ export const Drawer = () => {
               rules={[
                 { required: true, message: "Porfavor ingrese su nombre" },
               ]}>
-              <Input placeholder="Porfavor ingrese su nombre" />
+              <Input
+                placeholder="Porfavor ingrese su nombre"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, name: event.currentTarget.value })
+                }
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -62,7 +98,15 @@ export const Drawer = () => {
               rules={[
                 { required: true, message: "Porfavor ingrese una descripción" },
               ]}>
-              <Input placeholder="Porfavor ingrese una descripción" />
+              <Input
+                placeholder="Porfavor ingrese una descripción"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({
+                    ...formData,
+                    description: event.currentTarget.value,
+                  })
+                }
+              />
             </Form.Item>
           </Col>
         </Row>

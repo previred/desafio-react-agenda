@@ -15,3 +15,7 @@ export const deleteUserByIdApi = async (
   const statusCode = await userApi.deleteUserById(id);
   return statusCode;
 };
+
+export const saveUserApi = async (data: User): Promise<User> => {
+  return await userApi.saveUser(data);
+};
