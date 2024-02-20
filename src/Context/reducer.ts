@@ -1,9 +1,6 @@
-import { User, UserState } from "../api/User/User.type";
+import { UserAction, UserState } from "./context.type";
 
-type UserAction =
-  | { type: "GETALLUSERS"; payload: { users: User[] } }
-  | { type: "GETFILTERUSER"; payload: { letter: string } }
-  | { type: "CHANGEOPENDRAW"; payload: { isOpen: boolean } };
+//reducer de nuestro contexto global, en esta función se modifican los estados globales definidos
 
 export const userReducer = (
   users: UserState,

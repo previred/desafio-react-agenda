@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Alert, Col, Drawer as DrawerAnt, Form, Row, Space } from "antd";
 
 import { Button } from "../../components/Button";
@@ -20,6 +20,9 @@ export const Drawer = () => {
         if (res.id) {
           alert("Usuario Agregado!");
         }
+      })
+      .catch((error) => {
+        alert(error);
       })
       .finally(() => {
         loadUserList();

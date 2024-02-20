@@ -1,6 +1,7 @@
 import axios, { HttpStatusCode } from "axios";
 import { IApi } from "./IApi";
 
+//Clase api donde se utiliza el patron repositorio, de esta manera abstraemo la implementación del llamado de los endpoint de la logica de negocio
 export class Api<T> implements IApi<T> {
   private readonly url: string;
   constructor(url: string) {

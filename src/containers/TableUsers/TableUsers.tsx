@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TableProps } from "antd/es/table";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Alert } from "antd";
@@ -11,14 +11,17 @@ import { Button } from "../../components/Button";
 import { Avatar } from "../Avatar/Avatar";
 import { useUsers } from "../../hook/useUser";
 
+import "./TableUser.scss";
+
 export const TableUsers = () => {
   const { loadUserList, deleteUserById, userList } = useUsers();
   const [showAlert, setShowAlert] = useState(false);
 
   const deleteUser = (id: string) => {
     deleteUserById(id).then((res) => {
+      //se valida que el usuario se haya eliminado con exito, de ser así, se muestra una alerta
       loadUserList();
-      if (res == 200) {
+      if (res === 200) {
         setShowAlert(true);
       }
     });
@@ -65,6 +68,7 @@ export const TableUsers = () => {
           type="success"
           closable
           onClose={() => setShowAlert(false)}
+          className="table-user__alert"
         />
       )}
       <Table columns={columns} dataSource={userList} />
