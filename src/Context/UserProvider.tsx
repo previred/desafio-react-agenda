@@ -1,10 +1,13 @@
 import { FC, PropsWithChildren, useReducer } from "react";
 import { userReducer } from "./reducer";
 import { UserContext } from "./context";
-import { User } from "../api/User/User.type";
+import { User, UserState } from "../api/User/User.type";
 
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
-  const initialStateUser: User[] = [{ name: "", description: "", photo: "" }];
+  const initialStateUser: UserState = {
+    usersList: [{ name: "", description: "", photo: "" }],
+    isOpenDrawer: false,
+  };
 
   const [stateUsers, dispatch] = useReducer(userReducer, initialStateUser);
 
@@ -16,8 +19,14 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     dispatch({ type: "GETFILTERUSER", payload: { letter: letter } });
   };
 
+  const changeIsOpenDraw = (isOpen: boolean) => {
+    console.log(isOpen);
+    dispatch({ type: "CHANGEOPENDRAW", payload: { isOpen: isOpen } });
+  };
+
   return (
-    <UserContext.Provider value={{ stateUsers, getAllUsers, getFilterUser }}>
+    <UserContext.Provider
+      value={{ stateUsers, getAllUsers, getFilterUser, changeIsOpenDraw }}>
       {children}
     </UserContext.Provider>
   );

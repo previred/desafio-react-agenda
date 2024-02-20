@@ -1,3 +1,4 @@
+import { Drawer } from "../Drawer";
 import { Typography } from "../../components/Typography";
 import { ButtonAdd } from "../ButtonAdd";
 import { SearchInput } from "../SearchInput";
@@ -20,6 +21,7 @@ export const ContactList = () => {
       <ButtonAdd />
       <SearchInput />
       <TableUsers />
+      <Drawer />
     </div>
   );
 };
