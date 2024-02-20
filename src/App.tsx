@@ -1,9 +1,7 @@
+import { ContactList } from "./containers/ContactList";
+
 function App() {
-  return (
-    <>
-      <h1>prueba</h1>
-    </>
-  );
+  return <ContactList />;
 }
 
 export default App;
