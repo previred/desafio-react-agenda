@@ -1,11 +1,14 @@
 import { ContactList } from "./containers/ContactList";
 import "./App.scss";
+import { UserProvider } from "./Context/UserProvider";
 
 function App() {
   return (
-    <section className="principal">
-      <ContactList />
-    </section>
+    <UserProvider>
+      <section className="principal">
+        <ContactList />
+      </section>
+    </UserProvider>
   );
 }
 
