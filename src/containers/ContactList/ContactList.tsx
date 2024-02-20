@@ -1,7 +1,7 @@
-import Table from "../../components/Table/Table";
 import { Typography } from "../../components/Typography";
 import { ButtonAdd } from "../ButtonAdd";
 import { SearchInput } from "../SearchInput";
+import { TableUsers } from "../TableUsers/TableUsers";
 
 import "./ContactList.scss";
 
@@ -19,7 +19,7 @@ export const ContactList = () => {
       />
       <ButtonAdd />
       <SearchInput />
-      <Table />
+      <TableUsers />
     </div>
   );
 };

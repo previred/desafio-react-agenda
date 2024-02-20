@@ -1,46 +1,8 @@
-import { Table as TableAnt } from "antd";
-import type { TableProps } from "antd";
+import { Table as TableAnt, TableProps } from "antd";
 import { FunctionComponent } from "react";
-import { Typography } from "../Typography";
-import { ButtonDelete } from "../../containers/ButtonDelete";
 
-type ColumnsType = {
-  nombre: string;
-  descripcion: string;
-  acciones: string;
-};
-
-const Table: FunctionComponent = () => {
-  const columns: TableProps<ColumnsType>["columns"] = [
-    {
-      title: "Nombre",
-      dataIndex: "nombre",
-      key: "nombre",
-      render: (text) => <Typography type="text" label={text} />,
-    },
-    {
-      title: "Descripción",
-      dataIndex: "descripcion",
-      key: "descripcion",
-      render: (text) => <Typography type="text" label={text} />,
-    },
-    {
-      title: "Acciones",
-      dataIndex: "acciones",
-      key: "acciones",
-      render: (id) => <ButtonDelete id={id} />,
-    },
-  ];
-
-  const data: ColumnsType[] = [
-    {
-      nombre: "pablo",
-      descripcion: "descripcion",
-      acciones: "1",
-    },
-  ];
-
-  return <TableAnt columns={columns} dataSource={data} />;
+const Table: FunctionComponent<TableProps> = ({ columns, dataSource }) => {
+  return <TableAnt columns={columns} dataSource={dataSource} />;
 };
 
 export default Table;
