@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm-run-all --parallel start-server start-client",
     "start-client": "vite",
-    "start-server": "node server.js"
+    "start-server": "node ./src/server/server.js"
   },
   "author": "Pablo Moraga - contrera.moraga.pablo@gmail.com",
   "devDependencies": {
