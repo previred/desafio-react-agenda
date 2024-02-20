@@ -1,8 +1,8 @@
 import { Table as TableAnt } from "antd";
 import type { TableProps } from "antd";
 import { FunctionComponent } from "react";
-import { ButtonDelete } from "../Button/components";
-import Typography from "../Typography/Typography";
+import { Typography } from "../Typography";
+import { ButtonDelete } from "../../containers/ButtonDelete";
 
 type ColumnsType = {
   nombre: string;
