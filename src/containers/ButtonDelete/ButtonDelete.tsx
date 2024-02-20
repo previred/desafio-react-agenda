@@ -1,9 +1,10 @@
+import { FunctionComponent } from "react";
 import { Button } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { FunctionComponent } from "react";
-import { ButtonDeleteProps } from "../Button.type";
 
-export const ButtonDelete: FunctionComponent<ButtonDeleteProps> = ({ id }) => {
+import { ButtonProps } from "../../components/Button/Button.type";
+
+export const ButtonDelete: FunctionComponent<ButtonProps> = ({ id }) => {
   const handlerClick = () => {
     alert("agregar logica eliminar tabla" + id);
   };
