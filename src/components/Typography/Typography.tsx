@@ -3,7 +3,7 @@ import { FunctionComponent } from "react";
 import { TypographyProps } from "./Typography.type";
 const { Text, Title } = TypographyAnt;
 
-const Typography: FunctionComponent<TypographyProps> = ({
+export const Typography: FunctionComponent<TypographyProps> = ({
   label,
   level,
   type,
@@ -18,5 +18,3 @@ const Typography: FunctionComponent<TypographyProps> = ({
       </Text>
     );
 };
-
-export default Typography;
