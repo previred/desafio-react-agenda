@@ -1,5 +1,8 @@
 import { PlusOutlined } from "@ant-design/icons";
+
 import { Button } from "../../components/Button";
+
+import "./ButtonAdd.scss";
 
 export const ButtonAdd = () => {
   const openDrawer = () => {
@@ -11,6 +14,8 @@ export const ButtonAdd = () => {
       type="primary"
       onClick={openDrawer}
       icon={<PlusOutlined />}
+      size="large"
+      className="button-add"
     />
   );
 };

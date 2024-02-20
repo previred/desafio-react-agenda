@@ -1,0 +1,11 @@
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin-top: 100px;
+  padding: 32px;
+}
+
+.contact-list__subtitle {
+  padding: 0 0 16px 0;
+}

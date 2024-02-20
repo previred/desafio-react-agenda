@@ -1,13 +1,6 @@
-import { ReactNode } from "react";
+import { ButtonProps as ButtonAntProp } from "antd/es/button/button";
 
-export type ButtonApi = {
-  onClick?: () => void;
-  shape?: "default" | "circle" | "round";
-  icon?: ReactNode;
-  type?: "primary" | "dashed" | "link" | "text" | "default";
-};
-
-export type ButtonProps = ButtonApi & {
+export type ButtonProps = ButtonAntProp & {
   id?: string;
   label?: string;
 };

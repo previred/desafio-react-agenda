@@ -9,11 +9,17 @@ export const Typography: FunctionComponent<TypographyProps> = ({
   type,
   strong,
   textType,
+  className,
 }) => {
-  if (type == "title") return <Title level={level}>{label}</Title>;
+  if (type == "title")
+    return (
+      <Title level={level} className={className}>
+        {label}
+      </Title>
+    );
   if (type == "text")
     return (
-      <Text strong={strong} type={textType}>
+      <Text strong={strong} type={textType} className={className}>
         {label}
       </Text>
     );

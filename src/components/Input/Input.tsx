@@ -1,10 +1,6 @@
-import { Input as InputAnt } from "antd";
+import { Input as InputAnt, InputProps } from "antd";
 import { FunctionComponent } from "react";
 
-type InputProps = {
-  placeholder: string;
-};
-
-export const Input: FunctionComponent<InputProps> = ({ placeholder }) => {
-  return <InputAnt placeholder={placeholder} />;
+export const Input: FunctionComponent<InputProps> = ({ ...props }) => {
+  return <InputAnt {...props} />;
 };
