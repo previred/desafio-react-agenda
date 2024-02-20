@@ -1,7 +1,9 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TableProps } from "antd/es/table";
 import { DeleteOutlined } from "@ant-design/icons";
+import { Alert } from "antd";
 
+//TODO: ORDERNAR IMPORT
 import Table from "../../components/Table/Table";
 import type { ColumnsType } from "./TableUsers.type";
 import { Typography } from "../../components/Typography";
@@ -11,8 +13,19 @@ import { UserContext } from "../../Context/context";
 import { useUsers } from "../../hook/useUser";
 
 export const TableUsers = () => {
-  const { loadUserList } = useUsers();
+  const { loadUserList, deleteUserById } = useUsers();
   const { stateUsers } = useContext(UserContext);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const deleteUser = (id: string) => {
+    deleteUserById(id).then((res) => {
+      loadUserList();
+      if (res == 200) {
+        setShowAlert(true);
+      }
+    });
+  };
+
   const columns: TableProps<ColumnsType>["columns"] = [
     {
       title: "Nombre",
@@ -30,9 +43,15 @@ export const TableUsers = () => {
     },
     {
       title: "Acciones",
-      dataIndex: "acciones",
-      key: "acciones",
-      render: (id) => <Button id={id} icon={<DeleteOutlined />} />,
+      dataIndex: "id",
+      key: "id",
+      render: (id) => (
+        <Button
+          id={id}
+          icon={<DeleteOutlined />}
+          onClick={() => deleteUser(id)}
+        />
+      ),
     },
   ];
 
@@ -40,5 +59,12 @@ export const TableUsers = () => {
     loadUserList();
   }, []);
 
-  return <Table columns={columns} dataSource={stateUsers} />;
+  return (
+    <>
+      {showAlert && (
+        <Alert message="Contacto eliminado con exito" type="success" closable />
+      )}
+      <Table columns={columns} dataSource={stateUsers.usersList} />
+    </>
+  );
 };

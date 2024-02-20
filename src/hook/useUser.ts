@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "../Context/context";
-import { getAllUsersApi } from "../api/User/User";
+import { getAllUsersApi, deleteUserByIdApi } from "../api/User/User";
 
 export const useUsers = () => {
   const { getFilterUser, getAllUsers } = useContext(UserContext);
@@ -19,5 +19,9 @@ export const useUsers = () => {
       });
   };
 
-  return { listUserFilter, loadUserList };
+  const deleteUserById = async (id: string): Promise<number> => {
+    return await deleteUserByIdApi(id);
+  };
+
+  return { listUserFilter, loadUserList, deleteUserById };
 };

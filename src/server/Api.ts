@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { IApi } from "./IApi";
 
 export class Api<T> implements IApi<T> {
@@ -14,5 +14,10 @@ export class Api<T> implements IApi<T> {
   async getById(id: string): Promise<T> {
     const response = await axios.get<T>(`${this.url}/${id}`);
     return response.data;
+  }
+
+  async deleteUserById(id: string): Promise<HttpStatusCode> {
+    const { status } = await axios.delete(`${this.url}/${id}`);
+    return status;
   }
 }
