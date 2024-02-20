@@ -1,5 +1,6 @@
 import { createContext } from "react";
-import { User, UserState } from "../api/User/User.type";
+import { User } from "../api/User/User.type";
+import { UserState } from "./context.type";
 
 export type stateContextUsers = {
   stateUsers: UserState;

@@ -1,20 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TableProps } from "antd/es/table";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Alert } from "antd";
 
-//TODO: ORDERNAR IMPORT
-import Table from "../../components/Table/Table";
 import type { ColumnsType } from "./TableUsers.type";
+
+import Table from "../../components/Table/Table";
 import { Typography } from "../../components/Typography";
 import { Button } from "../../components/Button";
 import { Avatar } from "../Avatar/Avatar";
-import { UserContext } from "../../Context/context";
 import { useUsers } from "../../hook/useUser";
 
 export const TableUsers = () => {
-  const { loadUserList, deleteUserById } = useUsers();
-  const { stateUsers } = useContext(UserContext);
+  const { loadUserList, deleteUserById, userList } = useUsers();
   const [showAlert, setShowAlert] = useState(false);
 
   const deleteUser = (id: string) => {
@@ -62,9 +60,14 @@ export const TableUsers = () => {
   return (
     <>
       {showAlert && (
-        <Alert message="Contacto eliminado con exito" type="success" closable />
+        <Alert
+          message="Contacto eliminado con exito"
+          type="success"
+          closable
+          onClose={() => setShowAlert(false)}
+        />
       )}
-      <Table columns={columns} dataSource={stateUsers.usersList} />
+      <Table columns={columns} dataSource={userList} />
     </>
   );
 };
