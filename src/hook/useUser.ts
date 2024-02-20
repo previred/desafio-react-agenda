@@ -6,13 +6,20 @@ import {
   saveUserApi,
 } from "../api/User/User";
 import { User } from "../api/User/User.type";
+import { AxiosError } from "axios";
 
 export const useUsers = () => {
   const { getFilterUser, getAllUsers, changeIsOpenDraw, stateUsers } =
     useContext(UserContext);
   const { isOpenDrawer, usersList } = stateUsers;
+
   const listUserFilter = (letter: string) => {
-    getFilterUser(letter);
+    try {
+      getFilterUser(letter);
+    } catch (error) {
+      if (error instanceof AxiosError) throw new Error(error.message);
+      else throw new Error("Error al obtener el usuario");
+    }
   };
 
   const loadUserList = () => {
@@ -20,27 +27,42 @@ export const useUsers = () => {
       .then((res) => {
         getAllUsers(res);
       })
-      .catch((err: Error) => {
-        new Error(err.message);
+      .catch((error: Error) => {
+        if (error instanceof AxiosError) throw new Error(error.message);
+        else throw new Error("Error al obtener todo los usuarios");
       });
   };
 
   const deleteUserById = async (id: string): Promise<number> => {
-    return await deleteUserByIdApi(id);
+    try {
+      return await deleteUserByIdApi(id);
+    } catch (error) {
+      if (error instanceof AxiosError) throw new Error(error.message);
+      else throw new Error("Error al eliminar el usuario");
+    }
   };
 
   const saveUser = async (data: User): Promise<User> => {
-    const response = await saveUserApi(data);
-    return response;
+    try {
+      const response = await saveUserApi(data);
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) throw new Error(error.message);
+      else throw new Error("Error al guardar el usuario");
+    }
   };
 
   const onCloseDrawer = () => {
     changeIsOpenDraw(false);
   };
 
+  // retorna estado global del drawer, es un booleano
   const isOpen = isOpenDrawer;
+
+  //Lista de usuarios que estan guardados en el estado global
   const userList = usersList;
 
+  //valida que los campos del formulario no esten sin información
   const isDisabledForm = (formData: User) =>
     !formData?.name || !formData?.description || !formData?.photo;
 

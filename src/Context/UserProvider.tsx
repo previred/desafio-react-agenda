@@ -1,7 +1,8 @@
 import { FC, PropsWithChildren, useReducer } from "react";
 import { userReducer } from "./reducer";
 import { UserContext } from "./context";
-import { User, UserState } from "../api/User/User.type";
+import { User } from "../api/User/User.type";
+import { UserState } from "./context.type";
 
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const initialStateUser: UserState = {
