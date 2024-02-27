@@ -1,0 +1,23 @@
+.btn-container {
+    margin: 10px 0;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 4%;
+    margin-bottom: 20px;
+}
+
+
+.btn-container .ant-btn {
+    padding: 6px 15px;
+    font-size: 16px;
+}
+
+
+@media (max-width: 768px) {
+    .btn-container .ant-btn {
+        padding: 4px 10px;
+        font-size: 14px;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+}
