@@ -1,30 +1,44 @@
-# React + TypeScript + Vite
+# Agenda Previred
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Mí agenda de contactos laboral
 
-Currently, two official plugins are available:
+Agenda Previred es un App Web que permite gestionar los contactos personales
+en una agenda
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![alt text](image.png)
 
-## Expanding the ESLint configuration
+## Caracteristicas
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Listado de contactos
+- Agregar contacto
 
-- Configure the top-level `parserOptions` property like this:
+## Tecnología
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Agenda Previred esta construido en React con TypeScript, utilizando las siguientes tecnologías:
+
+- [ViteJS] - Una herramienta de próxima generación para iniciar proyectos de React, ofreciendo un arranque rápido y optimizaciones de rendimiento.
+- [Ant Design] - Una biblioteca de componentes de UI para React que facilita la creación de interfaces atractivas y coherentes.
+- [axios] - Un cliente HTTP basado en promesas que simplifica las llamadas a APIs y la gestión de respuestas.
+- [React Router] - Facilita el enrutamiento del lado del cliente, permitiendo la navegación entre diferentes vistas sin recargar la página.
+- [React Query] - Mejora la gestión de estados asíncronos, optimizando las interacciones con APIs.
+
+## Installation
+
+Instalar dependencias y ejecutar en modo de desarrollo
+
+```sh
+npm install
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## License
+
+MIT
+
+[//]: # "These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax"
+[ViteJS]: https://vitejs.dev/
+[Ant Design]: https://ant.design/
+[axios]: https://axios-http.com/
+[React Router]: https://reactrouter.com/
+[React Query]: https://tanstack.com/query/latest
+[node.js]: http://nodejs.org

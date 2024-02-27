@@ -2,6 +2,7 @@
 import { FC, ReactElement } from "react";
 import Router from "./router/Router.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { DrawerProvider } from "./contexts/DrawerContext";
 
 // Configuración inicial del cliente de React Query
 // Se desactiva la recarga automática de consultas al ingresar a la ventana (focus)
@@ -24,7 +25,9 @@ const queryClient = new QueryClient({
 const App: FC = (): ReactElement => {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
+      <DrawerProvider>
+        <Router />
+      </DrawerProvider>
     </QueryClientProvider>
   );
 };
